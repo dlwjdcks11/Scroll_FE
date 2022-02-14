@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 const Home:NextPage = () => {
-    return <div>Hello, World!</div>
+    return <div>{process.env.A}</div>
 }
 
 export default Home;
