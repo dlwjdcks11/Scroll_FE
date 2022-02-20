@@ -9,7 +9,7 @@ const Home:NextPage = () => {
                 <title>Scroll | Home</title>
             </Head>
             <Navbar>
-                hello, world!
+                Scroll
             </Navbar>
         </>
     );

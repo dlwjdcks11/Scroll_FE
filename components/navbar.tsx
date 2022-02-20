@@ -10,10 +10,16 @@ const StyledNav = styled.nav`
     height: 4rem;
     background-color: ${({ theme }) => theme.bg};
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    color: white;
-`; // 추후 background-color 재설정 필요
+    color: black;
+`;
+
+const Title = styled.div`
+    display: inline;
+    margin-right: auto;
+    margin-left: 2rem;
+`;
 
 const Navbar: FunctionComponent = ({ children }) => {
     const themeIdx = useRecoilValue(themeState);
@@ -21,11 +27,12 @@ const Navbar: FunctionComponent = ({ children }) => {
     return (
         <ThemeProvider theme={theme[themeIdx]}>
             <StyledNav>
-                {children}
+                <Title>
+                    {children}
+                </Title>
                 {theme.map((value, index) => {
                     return (
                         <ThemeButton value={index} key={value.name}>
-                            {value.bg}
                         </ThemeButton>
                     );
                 })}
