@@ -1,11 +1,11 @@
-import { Children, FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import themeState from "./states/state";
 
 type ParamProps = {
     children: ReactNode;
-    value: string;
+    value: number;
 }
 
 const StyledButton = styled.button`
@@ -16,8 +16,7 @@ const ThemeButton: FunctionComponent<ParamProps> = ({ children, value }) => {
     const [theme, setTheme] = useRecoilState(themeState);
     const onclick = (e) => {
         const target = e.target as HTMLButtonElement;
-        setTheme(target.value);
-        console.log(theme);
+        setTheme(Number(target.value));
     }
 
     return (
