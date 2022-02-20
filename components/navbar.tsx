@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import ThemeButton from "./themeButton";
 import { theme } from "../styles/theme/theme"
 import { useRecoilValue } from "recoil";
-import themeState from "./states/state";
+import themeIdxState from "./states/state";
 
 const StyledNav = styled.nav`
     width: 100%;
@@ -22,7 +22,7 @@ const Title = styled.div`
 `;
 
 const Navbar: FunctionComponent = ({ children }) => {
-    const themeIdx = useRecoilValue(themeState);
+    const themeIdx = useRecoilValue(themeIdxState);
 
     return (
         <ThemeProvider theme={theme[themeIdx]}>
@@ -31,10 +31,7 @@ const Navbar: FunctionComponent = ({ children }) => {
                     {children}
                 </Title>
                 {theme.map((value, index) => {
-                    return (
-                        <ThemeButton value={index} key={value.name}>
-                        </ThemeButton>
-                    );
+                    return <ThemeButton value={index} key={value.name}/>;
                 })}
             </StyledNav>
         </ThemeProvider>

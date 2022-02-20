@@ -1,8 +1,8 @@
 import { atom, selector } from 'recoil';
 
-const themeState = atom({
-    key: 'themeState',
+const themeIdxState = atom({
+    key: 'themeIdxState',
     default: 0,
 });
 
-export default themeState;
+export default themeIdxState;
