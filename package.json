@@ -1,0 +1,29 @@
+{
+  "name": "scroll_fe",
+  "version": "1.0.0",
+  "description": " ",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-styled-components": "^2.0.3",
+    "dotenv-webpack": "^7.1.0",
+    "next": "^12.0.10",
+    "polished": "^4.1.4",
+    "react": "^18.0.0-rc.0",
+    "react-dom": "^18.0.0-rc.0",
+    "recoil": "^0.6.1",
+    "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.17",
+    "@types/react": "^17.0.39",
+    "@types/styled-components": "^5.1.23",
+    "typescript": "^4.5.5"
+  }
+}
