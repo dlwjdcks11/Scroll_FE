@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import themeIdxState from "./states/state";
@@ -17,9 +17,9 @@ const StyledButton = styled.button`
     cursor: pointer;
 `;
 
-const ThemeButton: FunctionComponent<ParamProps> = ({ value }) => {
+const ThemeButton: React.FC<ParamProps> = ({ value }) => {
     const setThemeIdx = useSetRecoilState(themeIdxState);
-    const onclick = (e) => {
+    const onclick = (e: React.MouseEvent) => {
         const target = e.target as HTMLButtonElement;
         setThemeIdx(Number(target.value));
     }

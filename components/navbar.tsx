@@ -1,4 +1,4 @@
-import type { FunctionComponent } from "react";
+import type React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import ThemeButton from "./themeButton";
 import { theme } from "../styles/theme/theme"
@@ -21,7 +21,7 @@ const Title = styled.div`
     margin-left: 2rem;
 `;
 
-const Navbar: FunctionComponent = ({ children }) => {
+const Navbar: React.FC = ({ children }) => {
     const themeIdx = useRecoilValue(themeIdxState);
 
     return (
@@ -30,9 +30,7 @@ const Navbar: FunctionComponent = ({ children }) => {
                 <Title>
                     {children}
                 </Title>
-                {theme.map((value, index) => {
-                    return <ThemeButton value={index} key={value.name}/>;
-                })}
+                {theme.map((value, index) => { return <ThemeButton value={index} key={value.name}/>; })}
             </StyledNav>
         </ThemeProvider>
     );
