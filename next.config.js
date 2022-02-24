@@ -2,18 +2,17 @@
  * @type { import('next').NextConfig }
  */
 
-const dotenv = require('dotenv-webpack');
-
 const nextConfig = {
     reactStrictMode: true,
-    webpack: (config) => {
-        config.plugins.push(new dotenv({ silent: true })); // .env파일이 없을 때 에러 일으키지 않음
-
-        return config;
-    },
     compiler: {
         styledComponents: true,
     },
+    images: {
+        domains: ['image.tmdb.org'],
+    },
+    env: {
+        API_KEY: "a60c1a27ae0e0940afb23c616e968475",
+    }
 };
 
 module.exports = nextConfig;

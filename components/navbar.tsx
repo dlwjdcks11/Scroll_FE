@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import ThemeButton from "./themeButton";
 import { theme } from "../styles/theme/theme"
 import { useRecoilValue } from "recoil";
-import themeIdxState from "./states/state";
+import { themeIdxState } from "./states/state";
 
 const StyledNav = styled.nav`
     width: 100%;

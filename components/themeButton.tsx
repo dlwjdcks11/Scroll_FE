@@ -1,7 +1,7 @@
 import React from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
-import themeIdxState from "./states/state";
+import { themeIdxState } from "./states/state";
 import { theme } from "../styles/theme/theme";
 
 type ParamProps = {
