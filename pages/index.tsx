@@ -1,10 +1,11 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styled from 'styled-components';
-import Navbar from '../components/navbar';
-import WebtoonLink from '../components/webtoonLink';
+import Header from '../components/Header';
+import SearchBar from '../components/SearchBar';
+import WebtoonLink from '../components/WebtoonLink';
 
-type movie = {
+type Movie = {
     poster_path: string;
     adult: boolean;
     overview: string;
@@ -22,15 +23,23 @@ type movie = {
 }
 
 type ParamMovie = {
-    results: movie[];
+    results: Movie[];
 }
 
-const MainContainer = styled.main`
-    width: 80%;
+const Navbar = styled.nav`
+    display: flex;
+    height: 5rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0em 0.5em 10em -0.5em;
+    justify-content: center;
+    align-items: center;
+`;
+
+const ImageContainer = styled.div`
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, 19%);
-    grid-auto-rows: 23rem;
-    gap: 1.5rem 1.25%;
+    grid-auto-rows: 10rem;
+    gap: 2.5rem 1.25%;
 `;
 
 const Home:NextPage<ParamMovie> = ({ results }) => {
@@ -39,12 +48,15 @@ const Home:NextPage<ParamMovie> = ({ results }) => {
             <Head>
                 <title>Scroll | Home</title>
             </Head>
-            <Navbar>
+            <Header>
                 Scroll
+            </Header>
+            <Navbar>
+                <SearchBar></SearchBar>
             </Navbar>
-            <MainContainer>
+            <ImageContainer>
                 {results.map((value, index) => { return <WebtoonLink key={index} path={value.poster_path} title={value.original_title}/> })}
-            </MainContainer>
+            </ImageContainer>
         </>
     );
 }
@@ -55,7 +67,7 @@ export const getStaticProps = async () => {
 
     return {
         props: {
-            results,
+            results, 
         },
     }
 }

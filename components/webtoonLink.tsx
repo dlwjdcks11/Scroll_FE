@@ -8,9 +8,9 @@ type ImageProps = {
     title: string;
 }
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.a`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -21,26 +21,25 @@ const ImageContainer = styled.div`
 
 const MovieTitle = styled.p`
     text-align: center;
-    margin: 0.1rem 0 0.5rem 0;
-    max-width: 18.75rem;
-    max-height: 1.313rem;
+    margin: 0;
+    width: 100%;
+    max-height: 1rem;
+    text-align: center;
 `;
 
 const WebtoonLink:React.FC<ImageProps> = ({ path, title }) => {
     return (
         <Link href={`/`}>
             <ImageContainer>
-                <a>
-                    <Image
-                        src={`https://image.tmdb.org/t/p/w500${path}`}
-                        width={300}
-                        height={300}
-                        layout="fixed"
-                    />
-                    <MovieTitle>
-                        {title}
-                    </MovieTitle>
-                </a>
+                <Image
+                    src={`https://image.tmdb.org/t/p/w500${path}`}
+                    width="100%"
+                    height="100%"
+                    priority
+                />
+                <MovieTitle>
+                    {title}
+                </MovieTitle>
             </ImageContainer>
         </Link>
     )

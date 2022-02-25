@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { themeIdxState } from "./states/state";
@@ -9,12 +9,15 @@ type ParamProps = {
 }
 
 const StyledButton = styled.button`
-    background-color: ${({ theme }) => theme.bg};
+    background-color: ${({ theme }) => theme.first};
     height: 1rem;
     width: 1rem;
     margin-right: 1rem;
     border-radius: 0.5rem;
-    cursor: pointer;
+
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 const ThemeButton: React.FC<ParamProps> = ({ value }) => {

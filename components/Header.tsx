@@ -1,14 +1,14 @@
 import type React from "react";
 import styled, { ThemeProvider } from "styled-components";
-import ThemeButton from "./themeButton";
+import ThemeButton from "./ThemeButton";
 import { theme } from "../styles/theme/theme"
 import { useRecoilValue } from "recoil";
 import { themeIdxState } from "./states/state";
 
-const StyledNav = styled.nav`
+const StyledHeader = styled.header`
     width: 100%;
     height: 4rem;
-    background-color: ${({ theme }) => theme.bg};
+    background-color: ${({ theme }) => theme.first};
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -21,19 +21,19 @@ const Title = styled.div`
     margin-left: 2rem;
 `;
 
-const Navbar: React.FC = ({ children }) => {
+const Header: React.FC = ({ children }) => {
     const themeIdx = useRecoilValue(themeIdxState);
 
     return (
         <ThemeProvider theme={theme[themeIdx]}>
-            <StyledNav>
+            <StyledHeader>
                 <Title>
                     {children}
                 </Title>
                 {theme.map((value, index) => { return <ThemeButton value={index} key={value.name}/>; })}
-            </StyledNav>
+            </StyledHeader>
         </ThemeProvider>
     );
 }
 
-export default Navbar;
+export default Header;
