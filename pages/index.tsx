@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styled from 'styled-components';
+import FilterBox from '../components/FilterBox';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import WebtoonLink from '../components/WebtoonLink';
@@ -28,7 +29,7 @@ type ParamMovie = {
 
 const Navbar = styled.nav`
     display: flex;
-    height: 5rem;
+    flex-direction: column;
     box-shadow: rgba(50, 50, 93, 0.25) 0em 0.5em 10em -0.5em;
     justify-content: center;
     align-items: center;
@@ -52,7 +53,8 @@ const Home:NextPage<ParamMovie> = ({ results }) => {
                 Scroll
             </Header>
             <Navbar>
-                <SearchBar></SearchBar>
+                <SearchBar/>
+                <FilterBox/>
             </Navbar>
             <ImageContainer>
                 {results.map((value, index) => { return <WebtoonLink key={index} path={value.poster_path} title={value.original_title}/> })}

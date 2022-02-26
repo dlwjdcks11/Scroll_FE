@@ -56,7 +56,6 @@ const SearchBar:React.FC = () => {
                 <SubmitButton type="submit" id="search" name="search"/>
             </SearchContainer>
         </ThemeProvider>
-
     )
 }
 

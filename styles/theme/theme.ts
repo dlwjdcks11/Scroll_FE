@@ -28,4 +28,8 @@ export const ktoonTheme = {
     first: '#6B95F9',
 }
 
+export const filterDisplay = {
+    state: false,
+}
+
 export const theme = [naverTheme, kakaoTheme, lezhinTheme, toomicsTheme, toptoonTheme, ktoonTheme]
