@@ -1,8 +1,7 @@
 import type React from "react"
-import { useRecoilState } from "recoil";
+import { useState } from "react";
 import styled, { keyframes, ThemeProvider } from "styled-components";
 import { filterDisplay } from "../styles/theme/theme";
-import { displayState } from "./states/state";
 
 const fadeIn = keyframes`
     from {
@@ -24,7 +23,7 @@ const Dropdown = styled.div`
     justify-content: center;
     align-items: center;
 
-    &:hover {
+    :hover {
         cursor: pointer;
     }
 `
@@ -59,7 +58,7 @@ const FilterTitle = styled.p`
 `
 
 const FilterBox:React.FC = () => {
-    const [display, setDisplay] = useRecoilState(displayState);
+    const [display, setDisplay] = useState(false);
 
     const showDropdown = () => {
         setDisplay(!display);
@@ -76,27 +75,11 @@ const FilterBox:React.FC = () => {
                     <FilterTitle>
                         연재 날짜
                     </FilterTitle>
-                    <div>
-                        <input type="checkbox" value="test"/><span>asdf</span> 
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>  
-                    </div>
                 </FilterContainer>
                 <FilterContainer>
                     <FilterTitle>
                         장르
                     </FilterTitle>
-                    <div>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>
-                        <input type="checkbox" value="test"/><span>asdf</span>    
-                    </div>
                 </FilterContainer>
             </DropdownContents>
         </ThemeProvider>

@@ -1,3 +1,15 @@
+@font-face {
+    src: url('/fonts/NanumSquareRoundB.ttf');
+    font-family: 'NanumSquareRoundBold';
+}
+
+:root {
+    --yellow: #E9D905;
+    --grey: #EEEEEE;
+    --border_grey: #E2E2E2;
+}
+
 html, body {
     margin: 0;
+    font-family: 'NanumSquareRoundBold';
 }

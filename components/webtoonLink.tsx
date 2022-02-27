@@ -14,7 +14,7 @@ const ImageContainer = styled.a`
     justify-content: center;
     align-items: center;
 
-    &:hover {
+    :hover {
         cursor: pointer;
     }
 `;

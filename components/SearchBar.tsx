@@ -1,18 +1,22 @@
 import type React from "react";
 import Image from "next/image";
-import styled, { ThemeProvider } from "styled-components";
-import { useRecoilValue } from "recoil";
-import { themeIdxState } from "./states/state";
-import { theme } from "../styles/theme/theme";
+import styled from "styled-components";
 
 const SearchContainer = styled.form`
     display: flex;
-    width: 25rem;
+    width: 2.2rem;
     height: 2rem;
-    border: 0.1rem solid ${({ theme }) => theme.first};
+    border: 0.1rem solid var(--border_grey);
     border-radius: 0.4rem;
+    background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     align-items: center;
+    margin-right: 1rem;
+    transition: all 1s ease;
+
+    :hover {
+        width: 25rem;
+    }
 `
 
 const SearchImage = styled.label`
@@ -22,15 +26,12 @@ const SearchImage = styled.label`
 `
 
 const SearchSection = styled.input`
+    visibility: hidden;
     width: 100%;
     border: none;
 
     :focus {
         outline: none;
-    }
-
-    ::placeholder {
-        color: ${({ theme }) => theme.first};
     }
 `
 
@@ -39,23 +40,27 @@ const SubmitButton = styled.button`
 `
 
 const SearchBar:React.FC = () => {
-    const themeIdx = useRecoilValue(themeIdxState);
+    const onmouseenter = () => {
+        document.getElementById('searchSection').style.visibility = 'visible';
+    }
+
+    const onmouseleave = () => {
+        document.getElementById('searchSection').style.visibility = 'hidden';
+    }
     
     return (
-        <ThemeProvider theme={theme[themeIdx]}>
-            <SearchContainer>
-                <SearchImage htmlFor="search">
-                    <Image
-                        src="/search.png"
-                        width={20}
-                        height={20}
-                        layout="fixed"
-                    />
-                </SearchImage>
-                <SearchSection type="text" placeholder="Search"/>
-                <SubmitButton type="submit" id="search" name="search"/>
-            </SearchContainer>
-        </ThemeProvider>
+        <SearchContainer onMouseEnter={onmouseenter} onMouseLeave={onmouseleave}>
+            <SearchImage htmlFor="search">
+                <Image
+                    src="/search.png"
+                    width={20}
+                    height={20}
+                    layout="fixed"
+                />
+            </SearchImage>
+            <SearchSection id="searchSection" type="text" placeholder="Search"/>
+            <SubmitButton type="submit" id="search" name="search"/>
+        </SearchContainer>
     )
 }
 

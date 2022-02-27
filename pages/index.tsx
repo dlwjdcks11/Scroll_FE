@@ -52,13 +52,6 @@ const Home:NextPage<ParamMovie> = ({ results }) => {
             <Header>
                 Scroll
             </Header>
-            <Navbar>
-                <SearchBar/>
-                <FilterBox/>
-            </Navbar>
-            <ImageContainer>
-                {results.map((value, index) => { return <WebtoonLink key={index} path={value.poster_path} title={value.original_title}/> })}
-            </ImageContainer>
         </>
     );
 }
