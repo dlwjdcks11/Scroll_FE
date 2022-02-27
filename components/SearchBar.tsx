@@ -42,6 +42,7 @@ const SubmitButton = styled.button`
 const SearchBar:React.FC = () => {
     const onmouseenter = () => {
         document.getElementById('searchSection').style.visibility = 'visible';
+        document.getElementById('searchSection').focus();
     }
 
     const onmouseleave = () => {

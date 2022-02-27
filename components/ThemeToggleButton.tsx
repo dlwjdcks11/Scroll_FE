@@ -5,7 +5,7 @@ import styled, { keyframes, ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from '../styles/theme/theme'
 import { currentThemeState } from "./states/state";
 
-const fade = keyframes`
+const spin = keyframes`
     from {
         transform: scale(0) rotate(0deg);
     }
@@ -31,7 +31,7 @@ const ThemeButton = styled.div`
         background-repeat: no-repeat;
         background-size: 1.5rem 1.5rem;
         background-position: center;
-        animation-name: ${fade};
+        animation-name: ${spin};
         animation-duration: 0.3s;
         animation-iteration-count: 1;
         animation-direction: alternate;
