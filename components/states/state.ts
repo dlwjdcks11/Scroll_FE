@@ -5,7 +5,12 @@ export const currentThemeState = atom({
     default: false,
 })
 
-export const displayState = atom({
-    key: 'displayState',
-    default: false,
+export const filterIndexState = atom({
+    key: 'filterState',
+    default: -1,
+})
+
+export const checkboxState = atom({
+    key: 'checkboxState',
+    default: [],
 })

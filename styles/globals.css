@@ -3,6 +3,11 @@
     font-family: 'NanumSquareRoundBold';
 }
 
+@font-face {
+    src: url('/fonts/NanumSquareRoundEB.ttf');
+    font-family: 'NanumSquareRoundExtraBold';
+}
+
 :root {
     --yellow: #E9D905;
     --grey: #EEEEEE;

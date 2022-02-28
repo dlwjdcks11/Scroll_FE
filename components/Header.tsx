@@ -14,7 +14,6 @@ const StyledHeader = styled.header`
     justify-content: flex-end;
     align-items: center;
     color: black;
-    box-shadow: 0rem 0.1rem 9rem 0.1rem rgba(0, 0, 0, 0.2);
     transition: all 0.5s ease;
 `;
 
@@ -23,6 +22,8 @@ const Title = styled.div`
     margin-right: auto;
     margin-left: 2rem;
     color: var(--yellow);
+    font-family: 'NanumSquareRoundExtraBold';
+    font-size: 24px;
 `;
 
 const Header: React.FC = ({ children }) => {

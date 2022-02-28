@@ -1,10 +1,11 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import styled from 'styled-components';
-import FilterBox from '../components/FilterBox';
+import styled, { ThemeProvider } from 'styled-components';
 import Header from '../components/Header';
-import SearchBar from '../components/SearchBar';
-import WebtoonLink from '../components/WebtoonLink';
+import FilterLayout from '../components/FilterLayout';
+import { currentThemeState } from '../components/states/state';
+import { useRecoilValue } from 'recoil';
+import { darkTheme, lightTheme } from '../styles/theme/theme';
 
 type Movie = {
     poster_path: string;
@@ -27,32 +28,50 @@ type ParamMovie = {
     results: Movie[];
 }
 
-const Navbar = styled.nav`
-    display: flex;
-    flex-direction: column;
-    box-shadow: rgba(50, 50, 93, 0.25) 0em 0.5em 10em -0.5em;
-    justify-content: center;
-    align-items: center;
-`;
+const Main = styled.main`
+    background-color: ${({ theme }) => theme.bgColor};
+    transition: all 0.5s ease;
+`
 
-const ImageContainer = styled.div`
+const Center = styled.div`
+    display: flex;
+    width: 62.5rem;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    background-color: ${({ theme }) => theme.bgColor};
+    height: 50rem;
+    transition: all 0.5s ease;
+`
+
+const Images = styled.div`
+    margin-top: 1rem;
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 19%);
-    grid-auto-rows: 10rem;
-    gap: 2.5rem 1.25%;
-`;
+    height: 10rem;
+    background-color: black;
+`
 
 const Home:NextPage<ParamMovie> = ({ results }) => {
+    const currentTheme = useRecoilValue(currentThemeState);
+    const theme = currentTheme ? darkTheme : lightTheme;
+    
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <Head>
                 <title>Scroll | Home</title>
             </Head>
             <Header>
                 Scroll
             </Header>
-        </>
+            <Main>
+                <Center>
+                    <FilterLayout/>
+                    <Images>
+
+                    </Images>
+                </Center>
+            </Main>
+        </ThemeProvider>
     );
 }
 

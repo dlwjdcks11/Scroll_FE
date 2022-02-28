@@ -9,7 +9,3 @@ export const lightTheme = {
     textColor: '#212529',
     isDark: false,
 }
-
-export const filterDisplay = {
-    state: false,
-}
