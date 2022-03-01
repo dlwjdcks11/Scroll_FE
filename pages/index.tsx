@@ -45,10 +45,10 @@ const Center = styled.div`
 `
 
 const Images = styled.div`
-    margin-top: 1rem;
+    margin-top: -1rem;
     width: 100%;
-    height: 10rem;
-    background-color: black;
+    height: 20rem;
+    background-color: grey;
 `
 
 const Home:NextPage<ParamMovie> = ({ results }) => {

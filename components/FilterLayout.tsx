@@ -14,6 +14,7 @@ const FilterContainer = styled.div`
     justify-content: center;
     align-items: center;
     box-shadow: 0rem 0rem 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 
     > div:not(:last-child) > p {
         border-right: 0.1rem solid var(--border_grey);
