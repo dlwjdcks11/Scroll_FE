@@ -54,7 +54,7 @@ const Filter:React.FC<FilterProps> = ({ children, index }) => {
                 {children}
             </FilterTitle>
             <FilterExplanation>
-                네이버, 레진
+                Contents
             </FilterExplanation>
         </ClickSection>
     )

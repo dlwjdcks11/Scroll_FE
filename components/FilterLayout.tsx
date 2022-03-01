@@ -1,4 +1,4 @@
-import type React from "react"
+import React from "react"
 import styled from "styled-components";
 import CheckboxContainer from "./CheckboxContainer";
 import Filter from "./Filter";
@@ -28,10 +28,10 @@ const FilterLayout:React.FC = () => {
             <FilterContainer>
                 {contents.map((content, index) => { 
                     return (
-                        <>
-                            <Filter key={index} index={index}>{content}</Filter> 
-                            <CheckboxContainer key={index} index={index}></CheckboxContainer>  
-                        </>
+                        <React.Fragment key={index}>
+                            <Filter index={index}>{content}</Filter> 
+                            <CheckboxContainer index={index}></CheckboxContainer>  
+                        </React.Fragment>
                     )
                 })}
             </FilterContainer>  

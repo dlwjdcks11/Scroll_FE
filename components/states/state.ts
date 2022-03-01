@@ -6,11 +6,6 @@ export const currentThemeState = atom({
 })
 
 export const filterIndexState = atom({
-    key: 'filterState',
+    key: 'filterIndexState',
     default: -1,
-})
-
-export const checkboxState = atom({
-    key: 'checkboxState',
-    default: [],
 })

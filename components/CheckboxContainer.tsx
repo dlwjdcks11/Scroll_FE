@@ -1,28 +1,27 @@
-import type React from "react"
+import React from "react"
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { filterIndexState } from "./states/state";
+import Checkbox from "./Checkbox";
 
 type checkProps = {
     index: number,
 }
 
 const Container = styled.div`
+    display: grid;
     position: absolute;
-    display: flex;
-    width: 30rem;
+    visibility: hidden;
+    background-color: #F8F9FA;
+    width: 40rem;
     height: 7rem;
+    top: 16rem;
     box-shadow: 0rem 0rem 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
     border: 0.1rem solid var(--border_grey);
     border-radius: 0.4rem;
 
     &.Focus {
-        top: 16rem;
         visibility: visible;
-        background-color: white;
-    }
-    &.Unfocus {
-        visibility: hidden;
     }
 `
 
@@ -35,17 +34,11 @@ const CheckboxContainer:React.FC<checkProps> = ({ index }) => {
     ] // 나중에 getStaticProps
 
     return (
-        filterIndex === index ? 
-            <Container className={'Focus'}>
-                {filterContents[filterIndex].map((element, index) => {
-                    return (
-                        <>
-                            <input key={index} type="checkbox"/><span>{element}</span>
-                        </>
-                    )
-                })}
-            </Container> 
-            : <Container className={'Unfocus'}/>
+        <Container className={filterIndex === index ? 'Focus' : ''}>
+            {filterContents[index].map((element, index) => {
+                return <Checkbox key={index}>{element}</Checkbox>
+            })}
+        </Container>
     )
 }
 
