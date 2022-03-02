@@ -14,3 +14,20 @@ export const filterIndexState = atom({
     key: 'filterIndexState',
     default: -1,
 })
+
+export const filterDataState = atom({
+    key: 'filterDataState',
+    default: {
+        flatform: [],
+        genre: [],
+        day: [],
+    }
+})
+
+export const filterDataSelector = selector({
+    key: 'filterDataSelector',
+    get: ({ get }) => get(filterDataState),
+    set: ({ set, get }, filter) => {
+        const datas = get(filterDataState);
+    }
+})

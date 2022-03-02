@@ -71,7 +71,7 @@ const CheckboxContainer:React.FC<checkProps> = ({ index }) => {
             <Picker className={filterIndex === index ? `Focus ${titles[index]}` : ''}/>
             <Container className={filterIndex === index ? 'Focus' : ''}>
                 {filterContents[index].map((element, index) => {
-                    return <Checkbox key={index}>{element}</Checkbox>
+                    return <Checkbox key={index} id={index}>{element}</Checkbox>
                 })}
             </Container>    
         </>
