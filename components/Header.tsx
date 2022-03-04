@@ -15,6 +15,7 @@ const StyledHeader = styled.header`
     align-items: center;
     color: black;
     transition: all 0.5s ease;
+    border-bottom: 0.1rem solid var(--border_grey);
 `;
 
 const Title = styled.div`

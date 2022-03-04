@@ -1,6 +1,6 @@
 import { darken } from "polished";
 import type React from "react"
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { filterIndexState, prevFilterIndexState } from "./states/state";
 
@@ -14,8 +14,8 @@ const ClickSection = styled.div`
     flex-direction: column;
     justify-content: center;
     background-color: #F8F9FA;
-    width: 15rem;
-    height: 8rem;
+    width: 17rem;
+    height: 6rem;
     border-radius: 0.4rem;
     color: #212529;
 
@@ -23,7 +23,11 @@ const ClickSection = styled.div`
         display: flex;
         align-items: center;
         margin: 0 0 0 1.5rem;
-        height: 3rem;
+        height: 2rem;
+    }
+    
+    &.center > p {
+        border-right: 0.1rem solid var(--border_grey);
     }
 
     :hover {
@@ -44,19 +48,27 @@ const FilterExplanation = styled.p`
 const Filter:React.FC<filterProps> = ({ children, index }) => {
     const [filterIndex, setFilterIndex] = useRecoilState(filterIndexState);
     const setPrevFilterIndex = useSetRecoilState(prevFilterIndexState)
+    const resetFilterIndex = useResetRecoilState(filterIndexState);
+    const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
 
-    const onclick = () => { 
-        if (filterIndex === -1) {
-            setFilterIndex(index);
+    const showCheckboxes = () => { 
+        if (filterIndex === index) {
+            resetFilterIndex();
+            resetPrevFilterIndex();
         }
         else {
-            setPrevFilterIndex(filterIndex);
-            setFilterIndex(index);
+            if (filterIndex === -1) {
+                setFilterIndex(index);
+            }
+            else {
+                setPrevFilterIndex(filterIndex);
+                setFilterIndex(index);
+            }
         }
     }
     
     return (
-        <ClickSection onClick={onclick}>
+        <ClickSection onClick={showCheckboxes} className={index !== 2 ? 'center' : ''}>
             <FilterTitle>
                 {children}
             </FilterTitle>

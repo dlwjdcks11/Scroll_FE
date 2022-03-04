@@ -31,7 +31,7 @@ const Picker = styled.div<pickerProps>`
     border-right: 1rem solid transparent;
     border-bottom: 1rem solid #F8F9FA;
     margin-left: ${props => (props.current - 1) * 30}rem;
-    top: 16.1rem;
+    top: 14.1rem;
     z-index: 1000;
 
     ${props => props.prev !== -1 && css<pickerProps>`
@@ -46,7 +46,6 @@ const Picker = styled.div<pickerProps>`
     &.Focus {
         display: block;
     }
-
 `
 
 const Container = styled.div`
@@ -56,11 +55,11 @@ const Container = styled.div`
     background-color: #F8F9FA;
     width: 40rem;
     height: 7rem;
-    top: 17rem;
+    top: 15rem;
     box-shadow: 0rem 0rem 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
     border: 0.1rem solid var(--border_grey);
     border-radius: 0.4rem;
-    grid-template-columns: repeat(auto-fill, 20%);
+    grid-template-columns: repeat(auto-fill, 19%);
     grid-auto-rows: 0.5rem;
     gap: 1.5rem 1.25%;
 
@@ -80,7 +79,7 @@ const CheckboxContainer:React.FC<checkProps> = ({ index }) => {
 
     return (
         <>
-            <Picker className={filterIndex === index ? 'Focus' : ''} prev={prevFilterIndex} current={filterIndex}/>
+            <Picker className={(filterIndex === index && filterIndex !== -1) ? 'Focus' : ''} prev={prevFilterIndex} current={filterIndex}/>
             <Container className={filterIndex === index ? 'Focus' : ''}>
                 {filterContents[index].map((element, index) => {
                     return <Checkbox key={index} id={index}>{element}</Checkbox>
