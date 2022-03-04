@@ -1,14 +1,11 @@
 import type React from "react";
-import Image from "next/image";
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+import { useRecoilValue } from "recoil";
+import { currentThemeState } from "./states/state";
+import { darkTheme, lightTheme } from "../styles/theme/theme";
 
-type ImageProps = {
-    path: string;
-    title: string;
-}
-
-const ImageContainer = styled.a`
+const LinkContainer = styled.a`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,29 +16,46 @@ const ImageContainer = styled.a`
     }
 `;
 
-const MovieTitle = styled.p`
-    text-align: center;
-    margin: 0;
+const Thumbnail = styled.div`
+    background-color: ${({ theme }) => theme.textColor};
+    width: 9rem;
+    height: 13rem;
+    border-radius: 0.4rem;
+`
+
+const WebtoonTitle = styled.p`
+    margin: 0.3rem 0 0.1rem 1rem;;
     width: 100%;
     max-height: 1rem;
-    text-align: center;
+    color: ${({ theme }) => theme.textColor}
 `;
 
-const WebtoonLink:React.FC<ImageProps> = ({ path, title }) => {
+const WebtoonInfo = styled.p`
+    margin: 0 0 0 1rem;
+    width: 100%;
+    max-height: 1rem;
+    color: grey;
+`;
+
+const WebtoonLink:React.FC = () => {
+    const currentTheme = useRecoilValue(currentThemeState);
+    const theme = currentTheme ? darkTheme : lightTheme;
+
     return (
-        <Link href={`/`}>
-            <ImageContainer>
-                <Image
-                    src={`https://image.tmdb.org/t/p/w500${path}`}
-                    width="100%"
-                    height="100%"
-                    priority
-                />
-                <MovieTitle>
-                    {title}
-                </MovieTitle>
-            </ImageContainer>
-        </Link>
+        <ThemeProvider theme={theme}>
+            <Link href={`/`}>
+                <LinkContainer>
+                    <Thumbnail/>
+                    <WebtoonTitle>
+                        title
+                    </WebtoonTitle>
+                    <WebtoonInfo>
+                        author
+                    </WebtoonInfo>
+                </LinkContainer>
+            </Link>
+        </ThemeProvider>
+
     )
 }
 

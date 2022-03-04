@@ -30,6 +30,7 @@ export const filterDataSelector = selector({
     set: ({ get, set }, newState) => {
         const filterData = get(filterDataState);
         const filterIndex = get(filterIndexState);
+        let newData = {};
 
         if (filterIndex === 0) {
             const flatform = filterData.flatform;
@@ -42,11 +43,10 @@ export const filterDataSelector = selector({
                 newFlatform = [...flatform, newState];
             }
 
-            const newData = {
+            newData = {
                 ...filterData,
                 flatform: newFlatform,
             }
-            set(filterDataState, newData);
         }
         else if (filterIndex === 1) {
             const genre = filterData.genre;
@@ -59,11 +59,10 @@ export const filterDataSelector = selector({
                 newGenre = [...genre, newState];
             }
 
-            const newData = {
+            newData = {
                 ...filterData,
                 genre: newGenre,
             }
-            set(filterDataState, newData);
         }
         else if (filterIndex === 2) {
             const day = filterData.day;
@@ -76,11 +75,12 @@ export const filterDataSelector = selector({
                 newDay = [...day, newState];
             }
 
-            const newData = {
+            newData = {
                 ...filterData,
                 day: newDay,
             }
-            set(filterDataState, newData);
         }
+
+        set(filterDataState, newData);
     }
 })

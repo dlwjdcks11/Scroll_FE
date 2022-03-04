@@ -16,8 +16,7 @@ const Checkbox:React.FC<checkProps> = ({ children, id }) => {
     const setFilterData = useSetRecoilState(filterDataSelector);
 
     const saveState = (e) => {
-        const id = e.target.id;
-        setFilterData(id);
+        setFilterData(e.target.id);
     }
 
     return (
