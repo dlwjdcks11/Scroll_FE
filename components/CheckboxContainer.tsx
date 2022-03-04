@@ -1,18 +1,28 @@
 import type React from "react"
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useRecoilValue } from "recoil";
-import { filterIndexState } from "./states/state";
+import { filterIndexState, prevFilterIndexState } from "./states/state";
 import Checkbox from "./Checkbox";
 
 type checkProps = {
     index: number,
 }
 
-const moving = keyframes`
-    
+type pickerProps = {
+    prev: number,
+    current: number,
+}
+
+const moving = (prev, current) => keyframes`
+    0% {
+        margin-left: ${(prev - 1) * 30}rem;
+    }
+    100% {
+        margin-left: ${(current - 1) * 30}rem;
+    }
 `
 
-const Picker = styled.div`
+const Picker = styled.div<pickerProps>`
     display: none;
     position: absolute;
     width: 0; 
@@ -20,21 +30,23 @@ const Picker = styled.div`
     border-left: 1rem solid transparent;
     border-right: 1rem solid transparent;
     border-bottom: 1rem solid #F8F9FA;
+    margin-left: ${props => (props.current - 1) * 30}rem;
     top: 16.1rem;
     z-index: 1000;
 
+    ${props => props.prev !== -1 && css<pickerProps>`
+        animation-name: ${props => moving(props.prev, props.current)};
+        animation-duration: 0.3s;
+        animation-iteration-count: 1;
+        animation-direction: alternate;
+        animation-timing-function: ease;
+        animation-fill-mode: backwards;
+    `}
+    
     &.Focus {
         display: block;
     }
-    &.flatform {
-        margin-left: -30rem;
-    }
-    &.genre {
-        margin-left: 0rem;
-    }
-    &.day {
-        margin-left: 30rem;
-    }
+
 `
 
 const Container = styled.div`
@@ -59,16 +71,16 @@ const Container = styled.div`
 
 const CheckboxContainer:React.FC<checkProps> = ({ index }) => {
     const filterIndex = useRecoilValue(filterIndexState);
-    const titles = ['flatform', 'genre', 'day'];
+    const prevFilterIndex = useRecoilValue(prevFilterIndexState);
     const filterContents = [
         ['네이버', '레진', '탑툰', '카카오페이지', '왈랄랄루', '왈랄랄루', '왈랄랄루'],
         ['스릴러', '일상', '로맨스', '드라마', '개그', '공포', '왈랄랄루', '왈랄랄루', '왈랄랄루', '왈랄랄루', '왈랄랄루'],
         ['월', '화', '수', '목', '금', '토', '일']
-    ] 
+    ];
 
     return (
         <>
-            <Picker className={filterIndex === index ? `Focus ${titles[index]}` : ''}/>
+            <Picker className={filterIndex === index ? 'Focus' : ''} prev={prevFilterIndex} current={filterIndex}/>
             <Container className={filterIndex === index ? 'Focus' : ''}>
                 {filterContents[index].map((element, index) => {
                     return <Checkbox key={index} id={index}>{element}</Checkbox>

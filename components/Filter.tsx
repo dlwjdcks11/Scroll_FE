@@ -1,10 +1,10 @@
 import { darken } from "polished";
 import type React from "react"
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { filterIndexState } from "./states/state";
+import { filterIndexState, prevFilterIndexState } from "./states/state";
 
-type FilterProps = {
+type filterProps = {
     children: React.ReactNode,
     index: number,
 }
@@ -41,11 +41,18 @@ const FilterExplanation = styled.p`
     color: grey;
 `
 
-const Filter:React.FC<FilterProps> = ({ children, index }) => {
-    const setFilterIndex = useSetRecoilState(filterIndexState);
+const Filter:React.FC<filterProps> = ({ children, index }) => {
+    const [filterIndex, setFilterIndex] = useRecoilState(filterIndexState);
+    const setPrevFilterIndex = useSetRecoilState(prevFilterIndexState)
 
     const onclick = () => { 
-        setFilterIndex(index);
+        if (filterIndex === -1) {
+            setFilterIndex(index);
+        }
+        else {
+            setPrevFilterIndex(filterIndex);
+            setFilterIndex(index);
+        }
     }
     
     return (

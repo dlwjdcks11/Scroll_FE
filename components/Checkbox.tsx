@@ -23,7 +23,7 @@ const Checkbox:React.FC<checkProps> = ({ children, id }) => {
 
         }
         else if (filterIndex === 2) {
-            
+
         }
     }
 

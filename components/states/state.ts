@@ -5,8 +5,8 @@ export const currentThemeState = atom({
     default: false,
 })
 
-export const filterPrevIndexState = atom({
-    key: 'filterPrevIndexState',
+export const prevFilterIndexState = atom({
+    key: 'prevFilterIndexState',
     default: -1,
 })
 
