@@ -11,7 +11,6 @@ const SearchContainer = styled.form`
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     align-items: center;
-    margin-right: 1rem;
     transition: all 0.5s ease;
 
     :hover {

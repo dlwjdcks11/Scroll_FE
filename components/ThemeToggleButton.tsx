@@ -18,7 +18,6 @@ const ThemeButton = styled.div`
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 2.5rem;
-    margin-right: 1rem;
 
     :hover {
         background-color: ${({ theme }) => theme.isDark ? lighten(0.2, theme.bgColor) : darken(0.04, theme.bgColor)};

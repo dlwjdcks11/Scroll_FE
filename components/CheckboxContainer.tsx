@@ -31,7 +31,7 @@ const Picker = styled.div<pickerProps>`
     border-right: 1rem solid transparent;
     border-bottom: 1rem solid #F8F9FA;
     margin-left: ${props => (props.current - 1) * 30}rem;
-    top: 14.1rem;
+    top: 13.1rem;
     z-index: 1000;
 
     ${props => props.prev !== -1 && css<pickerProps>`
@@ -55,7 +55,7 @@ const Container = styled.div`
     background-color: #F8F9FA;
     width: 40rem;
     height: 7rem;
-    top: 15rem;
+    top: 14rem;
     box-shadow: 0rem 0rem 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
     border: 0.1rem solid var(--border_grey);
     border-radius: 0.4rem;

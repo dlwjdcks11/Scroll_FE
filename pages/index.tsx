@@ -3,7 +3,7 @@ import Head from 'next/head';
 import styled, { ThemeProvider } from 'styled-components';
 import Header from '../components/Header';
 import FilterLayout from '../components/FilterLayout';
-import { currentThemeState, filterIndexState } from '../components/states/state';
+import { currentThemeState, filterIndexState, prevFilterIndexState } from '../components/states/state';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
@@ -42,12 +42,14 @@ const Images = styled.div`
 const Home:NextPage = () => {
     const filterIndex = useRecoilValue(filterIndexState);
     const resetFilterIndex = useResetRecoilState(filterIndexState);
+    const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
     
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
 
     const offDimmed = () => {
         resetFilterIndex();
+        resetPrevFilterIndex();
     }
     
     return (

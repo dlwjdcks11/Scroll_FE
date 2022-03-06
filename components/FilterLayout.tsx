@@ -6,7 +6,7 @@ import Filter from "./Filter";
 const FilterContainer = styled.div`
     width: 51rem;
     height: 6rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
     border: 0.1rem solid var(--border_grey);
     border-radius: 0.4rem;
     background-color: #F8F9FA;
