@@ -1,3 +1,4 @@
+import { darken, lighten } from "polished";
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
@@ -32,23 +33,22 @@ const MenuContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 2rem;
-
-    > div {
-        margin: 0 0 0 0.6rem;
-    }
 `
 
 const DropdownButton = styled.div`
-    width: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 2.5rem;
 
     :before {
         content: '\\2807';   
-        font-size: 24px;
-        margin-left: 0.1rem;
+        font-size: 30px;
+        margin: 0 0 0 0.8rem;
+        color: ${({ theme }) => theme.textColor}
     }
 
     :hover {
+        background-color: ${({ theme }) => theme.isDark ? lighten(0.2, theme.bgColor) : darken(0.04, theme.bgColor)};
         cursor: pointer;
     }
 `;
@@ -68,7 +68,6 @@ const Header: React.FC = ({ children }) => {
     const [isVisible, setIsVisible] = useState(false);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
-
     const showContents = () => {
         setIsVisible(!isVisible);
     }

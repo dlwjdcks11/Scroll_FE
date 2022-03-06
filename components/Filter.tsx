@@ -57,13 +57,10 @@ const Filter:React.FC<filterProps> = ({ children, index }) => {
             resetPrevFilterIndex();
         }
         else {
-            if (filterIndex === -1) {
-                setFilterIndex(index);
-            }
-            else {
+            if (filterIndex !== -1) {
                 setPrevFilterIndex(filterIndex);
-                setFilterIndex(index);
             }
+            setFilterIndex(index);
         }
     }
     

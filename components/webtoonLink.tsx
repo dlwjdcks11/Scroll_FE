@@ -43,13 +43,13 @@ const IconContainer = styled.div`
 `;
 
 const WebtoonTitle = styled.p`
-    margin: 0.3rem 0 0.1rem 1rem;
+    margin: 0.3rem 0 0.1rem 0.5rem;
     max-height: 1rem;
     color: ${({ theme }) => theme.textColor};
 `;
 
 const WebtoonInfo = styled.p`
-    margin: 0 0 0 1rem;
+    margin: 0 0 0 0.5rem;
     max-height: 1rem;
     color: grey;
 `;

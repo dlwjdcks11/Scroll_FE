@@ -43,7 +43,6 @@ const Home:NextPage = () => {
     const filterIndex = useRecoilValue(filterIndexState);
     const resetFilterIndex = useResetRecoilState(filterIndexState);
     const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
-    
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
 
