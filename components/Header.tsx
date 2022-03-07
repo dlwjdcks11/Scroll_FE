@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
+import DropdownContents from "./DropdownContents";
 import SearchBar from "./SearchBar";
 import { currentThemeState } from "./states/state";
 import ThemeToggleButton from "./ThemeToggleButton";
@@ -53,22 +54,11 @@ const DropdownButton = styled.div`
     }
 `;
 
-const DropdownContents = styled.div`
-    position: absolute;
-    background-color: white;
-    width: 13rem;
-    height: 30rem;
-    right: 0.7rem;
-    top: 4.5rem;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
-    border-radius: 0.4rem;
-`
-
 const Header: React.FC = ({ children }) => {
     const [isVisible, setIsVisible] = useState(false);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
-    const showContents = () => {
+    const showContents = (e) => {
         setIsVisible(!isVisible);
     }
 

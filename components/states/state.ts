@@ -15,6 +15,11 @@ export const filterIndexState = atom({
     default: -1,
 })
 
+export const showFavoriteState = atom({
+    key: 'showFavoriteState',
+    default: false,
+})
+
 export const filterDataState = atom({
     key: 'filterDataState',
     default: {

@@ -4,9 +4,8 @@ import styled, { ThemeProvider } from "styled-components";
 import { useRecoilValue } from "recoil";
 import { currentThemeState } from "./states/state";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useState } from "react";
+import Star from '/public/star.svg';
 
 const LinkContainer = styled.a`
     display: flex;
@@ -58,6 +57,11 @@ const WebtoonLink:React.FC = () => {
     const [star, setStar] = useState(false);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
+    const starStyle = {
+        width: '1rem',
+        height: '1rem',
+        fill: star ? `var(--yellow)` : 'lightgrey',
+    }
 
     const selectFavorite = () => {
         setStar(!star);
@@ -78,7 +82,7 @@ const WebtoonLink:React.FC = () => {
                             </WebtoonInfo>  
                         </DetailContainer>
                         <IconContainer onClick={selectFavorite}>
-                            <FontAwesomeIcon icon={faStar} style={star ? { color : `var(--yellow)` } : { color: `lightgrey` }}/>
+                            <Star style={starStyle}/>
                         </IconContainer>
                     </InfoContainer>
                 </LinkContainer>

@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { filterDataSelector } from "./states/state";
 
 type checkProps = {
-    id: number;
+    id: string;
 }
 
 const StyledDiv = styled.div`
     margin: 1rem 0 0 1rem;
-    width: 7rem;
+    width: 8rem;
 `
 
 const Checkbox:React.FC<checkProps> = ({ children, id }) => {
@@ -21,7 +21,7 @@ const Checkbox:React.FC<checkProps> = ({ children, id }) => {
 
     return (
         <StyledDiv>
-            <input type="checkbox" id={String(id)} onChange={saveState}/>
+            <input type="checkbox" id={id} onChange={saveState}/>
             <span>{children}</span>
         </StyledDiv>
     )
