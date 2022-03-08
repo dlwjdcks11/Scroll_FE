@@ -25,7 +25,7 @@ const Title = styled.div`
     display: inline;
     margin-right: auto;
     margin-left: 2rem;
-    color: var(--yellow);
+    color: var(--primary);
     font-family: 'NanumSquareRoundExtraBold';
     font-size: 24px;
 `;

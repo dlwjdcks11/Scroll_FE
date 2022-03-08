@@ -20,6 +20,11 @@ export const showFavoriteState = atom({
     default: false,
 })
 
+export const showLoginState = atom({
+    key: 'showLoginState',
+    default: false,
+})
+
 export const filterDataState = atom({
     key: 'filterDataState',
     default: {

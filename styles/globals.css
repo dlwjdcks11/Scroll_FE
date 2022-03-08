@@ -9,9 +9,9 @@
 }
 
 :root {
-    --yellow: #E9D9A9;
     --grey: #EEEEEE;
     --border_grey: #E2E2E2;
+    --primary: #E69060;
 }
 
 html, body {

@@ -3,10 +3,11 @@ import Head from 'next/head';
 import styled, { ThemeProvider } from 'styled-components';
 import Header from '../components/Header';
 import FilterLayout from '../components/FilterLayout';
-import { currentThemeState, filterIndexState, prevFilterIndexState } from '../components/states/state';
+import { currentThemeState, filterIndexState, prevFilterIndexState, showLoginState } from '../components/states/state';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
+import LoginForm from '../components/LoginForm';
 
 const DimmedPage = styled.div`
     position: fixed;
@@ -42,6 +43,7 @@ const Images = styled.div`
 
 const Home:NextPage = () => {
     const filterIndex = useRecoilValue(filterIndexState);
+    const showLogin = useRecoilValue(showLoginState);
     const resetFilterIndex = useResetRecoilState(filterIndexState);
     const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
     const currentTheme = useRecoilValue(currentThemeState);
@@ -51,12 +53,13 @@ const Home:NextPage = () => {
         resetFilterIndex();
         resetPrevFilterIndex();
     }
-    
+
     return (
         <ThemeProvider theme={theme}>
             <Head>
                 <title>Scroll | Home</title>
             </Head>
+            {showLogin ? <LoginForm/> : null}
             {filterIndex !== -1 ? <DimmedPage onClick={offDimmed}/> : null}
             <Header>
                 Scroll

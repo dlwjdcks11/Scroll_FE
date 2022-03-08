@@ -2,7 +2,7 @@ import type React from "react";
 import Link from "next/link";
 import styled, { ThemeProvider } from "styled-components";
 import { useRecoilValue } from "recoil";
-import { currentThemeState } from "./states/state";
+import { currentThemeState, showFavoriteState } from "./states/state";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { useState } from "react";
 import Star from '/public/star.svg';
@@ -54,20 +54,45 @@ const WebtoonInfo = styled.p`
 `;
 
 const WebtoonLink:React.FC = () => {
+    const showFavorite = useRecoilValue(showFavoriteState);
     const [star, setStar] = useState(false);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
     const starStyle = {
         width: '1rem',
         height: '1rem',
-        fill: star ? `var(--yellow)` : 'lightgrey',
+        fill: star ? `var(--primary)` : 'lightgrey',
     }
 
-    const selectFavorite = () => {
+    const selectFavorite = (e) => {
+        e.stopPropagation();
         setStar(!star);
     }
 
     return (
+        showFavorite ? (
+            star ? 
+            <ThemeProvider theme={theme}>
+                <Link href={`/`}>
+                    <LinkContainer>
+                        <Thumbnail/>
+                        <InfoContainer>
+                            <DetailContainer>
+                                <WebtoonTitle>
+                                    title
+                                </WebtoonTitle>
+                                <WebtoonInfo>
+                                    author
+                                </WebtoonInfo>  
+                            </DetailContainer>
+                            <IconContainer onClick={selectFavorite}>
+                                <Star style={starStyle}/>
+                            </IconContainer>
+                        </InfoContainer>
+                    </LinkContainer>
+                </Link>
+            </ThemeProvider> : null
+        ) :
         <ThemeProvider theme={theme}>
             <Link href={`/`}>
                 <LinkContainer>
