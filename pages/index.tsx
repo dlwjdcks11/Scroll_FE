@@ -48,6 +48,7 @@ const Home:NextPage = () => {
     const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
+    document.querySelector('body').style.backgroundColor = theme.bgColor;
 
     const offDimmed = () => {
         resetFilterIndex();

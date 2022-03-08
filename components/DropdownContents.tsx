@@ -99,7 +99,7 @@ const DropdownContents:React.FC = () => {
             <DropdownContainer onClick={stopPropagation}>
                 <Menu>
                     <MenuTitle>메뉴</MenuTitle>
-                    <input type="checkbox" style={{ margin: '0.8rem 0.5rem 0 1rem' }} onChange={checkFavorite}/>
+                    <input type="checkbox" style={{ margin: '0.8rem 0.5rem 0 1rem' }} onChange={checkFavorite} checked={showFavorite}/>
                     <span>즐겨찾기만 보기</span>
                 </Menu>
                 <RecentlyWatched>

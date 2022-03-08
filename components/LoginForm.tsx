@@ -58,34 +58,27 @@ const Form = styled.form`
 
 const Input = styled.input`
     width: 100%;
+    color: ${({ theme }) => theme.textColor};
     background-color: ${({ theme }) => lighten(0.2, theme.bgColor)};
     height: 2rem;
     margin-top: 0.5rem;
     border: none;
-    border-radius: 0.4rem;
     border-bottom: 0.1rem solid var(--border_grey);
+    transition: all 0.2s linear;
 
     :focus {
         outline: none;
+        border-bottom: 0.1rem solid var(--primary);
+    }
+
+    :focus::placeholder {
+        color: var(--primary);
     }
 
     ::placeholder {
         color: lightgrey;
     }
-
-    :focus+.underline {
-        transform: scale(1);
-    }
 `;
-
-const Underline = styled.span`
-    background-color: var(--primary);
-    display: inline-block;
-    width: 100%;
-    height: 0.1rem;
-    transform: scale(0, 1);
-    transition: all 0.2s linear;
-`
 
 const Submit = styled.input`
     font-family: 'NanumSquareRoundBold';
@@ -117,9 +110,7 @@ const LoginForm:React.FC = () => {
                     </Title>
                     <Form>
                         <Input placeholder="ID" id={'id'} autoComplete={'off'}/>
-                        <Underline className={'underline'}/>
                         <Input placeholder="PW" id={'pw'} autoComplete={'off'}/>
-                        <Underline className={'underline'}/>
                         <Submit type="submit" value={'로그인'}/>
                     </Form>
                 </FormContainer>
