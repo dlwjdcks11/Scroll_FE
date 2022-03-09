@@ -1,5 +1,5 @@
 import React from "react"
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { currentThemeState, showLoginState } from "./states/state";
@@ -92,12 +92,12 @@ const Submit = styled.input`
 `
 
 const LoginForm:React.FC = () => {
-    const setShowLogin = useSetRecoilState(showLoginState);
+    const resetShowLogin = useResetRecoilState(showLoginState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
 
     const closeLogin = () => {
-        setShowLogin(false);
+        resetShowLogin();
     }
 
     return (
@@ -109,8 +109,8 @@ const LoginForm:React.FC = () => {
                         Scroll 로그인
                     </Title>
                     <Form>
-                        <Input placeholder="ID" id={'id'} autoComplete={'off'}/>
-                        <Input placeholder="PW" id={'pw'} autoComplete={'off'}/>
+                        <Input placeholder="아이디" id='id' autoComplete='off'/>
+                        <Input placeholder="비밀번호" id='pw' autoComplete='off'/>
                         <Submit type="submit" value={'로그인'}/>
                     </Form>
                 </FormContainer>

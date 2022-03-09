@@ -1,13 +1,14 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import Header from '../components/Header';
 import FilterLayout from '../components/FilterLayout';
-import { currentThemeState, filterIndexState, prevFilterIndexState, showLoginState } from '../components/states/state';
+import { currentThemeState, filterIndexState, prevFilterIndexState, showLoginState, showRegisterState } from '../components/states/state';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
 import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 const DimmedPage = styled.div`
     position: fixed;
@@ -18,7 +19,7 @@ const DimmedPage = styled.div`
 `
 
 const Main = styled.main`
-    background-color: ${({ theme }) => theme.bgColor};
+    background-color: transparent;
     transition: all 0.5s ease;
 `
 
@@ -28,7 +29,7 @@ const Center = styled.div`
     flex-direction: column;
     align-items: center;
     margin: auto;
-    background-color: ${({ theme }) => theme.bgColor};
+    background-color: transparent;
     transition: all 0.5s ease;
 `
 
@@ -44,11 +45,14 @@ const Images = styled.div`
 const Home:NextPage = () => {
     const filterIndex = useRecoilValue(filterIndexState);
     const showLogin = useRecoilValue(showLoginState);
+    const showRegister = useRecoilValue(showRegisterState);
     const resetFilterIndex = useResetRecoilState(filterIndexState);
     const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
-    document.querySelector('body').style.backgroundColor = theme.bgColor;
+
+    if (typeof window === 'object')
+        document.querySelector('body').style.backgroundColor = theme.bgColor;
 
     const offDimmed = () => {
         resetFilterIndex();
@@ -56,11 +60,12 @@ const Home:NextPage = () => {
     }
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <Head>
                 <title>Scroll | Home</title>
             </Head>
             {showLogin ? <LoginForm/> : null}
+            {showRegister ? <RegisterForm/> : null}
             {filterIndex !== -1 ? <DimmedPage onClick={offDimmed}/> : null}
             <Header>
                 Scroll
@@ -104,7 +109,7 @@ const Home:NextPage = () => {
                     </Images>
                 </Center>
             </Main>
-        </ThemeProvider>
+        </>
     );
 }
 

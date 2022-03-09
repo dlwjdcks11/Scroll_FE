@@ -11,7 +11,7 @@ import ThemeToggleButton from "./ThemeToggleButton";
 const StyledHeader = styled.header`
     width: 100%;
     height: 4rem;
-    background-color: ${({ theme }) => theme.bgColor};
+    background-color: transparent;
     display: flex;
     justify-content: flex-end;
     align-items: center;

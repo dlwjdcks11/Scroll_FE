@@ -25,6 +25,11 @@ export const showLoginState = atom({
     default: false,
 })
 
+export const showRegisterState = atom({
+    key: 'showRegisterState',
+    default: false,
+})
+
 export const filterDataState = atom({
     key: 'filterDataState',
     default: {

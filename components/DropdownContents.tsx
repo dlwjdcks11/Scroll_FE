@@ -2,7 +2,7 @@ import React from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
-import { currentThemeState, showFavoriteState, showLoginState } from "./states/state";
+import { currentThemeState, showFavoriteState, showLoginState, showRegisterState } from "./states/state";
 import { lighten } from "polished"
 
 const DropdownContainer = styled.div`
@@ -77,7 +77,8 @@ const RegisterButton = styled(Button)`
 `
 
 const DropdownContents:React.FC = () => {
-    const setViewLogin = useSetRecoilState(showLoginState);
+    const setShowLogin = useSetRecoilState(showLoginState);
+    const setShowRegister = useSetRecoilState(showRegisterState);
     const [showFavorite, setShowFavorite] = useRecoilState(showFavoriteState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
@@ -87,7 +88,11 @@ const DropdownContents:React.FC = () => {
     }
 
     const showLogin = () => {
-        setViewLogin(true);
+        setShowLogin(true);
+    }
+
+    const showRegister = () => {
+        setShowRegister(true);
     }
 
     const checkFavorite = () => {
@@ -112,7 +117,7 @@ const DropdownContents:React.FC = () => {
                 </RecentlyWatched>
                 <ButtonContainer>
                     <LoginButton onClick={showLogin}>로그인</LoginButton>
-                    <RegisterButton>회원가입</RegisterButton>
+                    <RegisterButton onClick={showRegister}>회원가입</RegisterButton>
                 </ButtonContainer>
             </DropdownContainer>
         </ThemeProvider>
