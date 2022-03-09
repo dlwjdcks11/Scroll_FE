@@ -1,23 +1,31 @@
 import React, { useState } from "react"
 import { useResetRecoilState, useRecoilValue } from "recoil";
-import styled, { css, keyframes, ThemeProvider } from "styled-components";
+import styled, { keyframes, ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { currentThemeState, showRegisterState } from "./states/state";
 import { lighten } from "polished";
 
-type IdStateP = {
-    animate: number;
-}
-
 const vibrate = keyframes`
     0%, 20%, 40%, 60%, 80%, 100% {
-        transform: translate(0rem, 0);
+        transform: translate(0, 0);
     }
     10%, 50%, 90% {
         transform: translate(0.1rem, 0);
     }
     30%, 70% {
         transform: translate(-0.1rem, 0);
+    }
+`
+
+const passed = keyframes`
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(0, -0.2rem);
+    }
+    100% {
+        transform: translate(0, 0);
     }
 `
 
@@ -95,23 +103,6 @@ const IdDuplicateCheckButton = styled.input`
     }
 `
 
-const ShowIdState = styled.p<IdStateP>`
-    font-size: 12px;
-    margin: 0.5rem auto 0 0;
-    transition: color 0.5s ease;
-    animation: ${props => props.animate > 0 && css`
-        ${vibrate} 0.3s linear 1;
-    `};
-
-    &.ok {
-        color: #265DEE;
-    }
-
-    &.error {
-        color: #ED326D;
-    }
-`
-
 const Input = styled.input`
     width: 100%;
     color: ${({ theme }) => theme.textColor};
@@ -134,7 +125,32 @@ const Input = styled.input`
     ::placeholder {
         color: lightgrey;
     }
+
+    &.passed {
+        border-bottom: 0.1rem solid var(--passed);
+        color: var(--passed);
+    }
 `;
+
+const ShowState = styled.p`
+    font-size: 12px;
+    margin: 0.5rem auto 0 0;
+    transition: color 0.5s ease;
+    animation-duration: 0.3s;
+    animation-iteration-count: 1;
+    animation-direction: alternate;
+    animation-timing-function: ease;
+
+    &.passed {
+        color: var(--passed);
+        animation-name: ${passed};
+    }
+
+    &.denied {
+        color: var(--denied);
+        animation-name: ${vibrate};
+    }
+`
 
 const Submit = styled.input`
     font-family: 'NanumSquareRoundBold';
@@ -146,17 +162,18 @@ const Submit = styled.input`
     color: #F1F3F5;
     margin: 1rem 0 0 auto;
 `
-
+// 03/09 TODO: 중복확인 누르고 바뀌었을 떄 예외처리, 디자인 다시보기, 비밀번호/확인 state 설정, 정규표현식
 const RegisterForm:React.FC = () => {
     const [idState, setIdState] = useState(-1);
+    const [pwState, setPwState] = useState(false);
     const resetRegisterLogin = useResetRecoilState(showRegisterState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
-    const stateArray = [
-        '사용가능한 아이디 입니다.',
+    const idStateArray = [
+        '사용 가능한 아이디 입니다.',
         '이미 존재하는 아이디 입니다.',
         '아이디는 N자 이하의 영문, 숫자로만 이루어져야 합니다.',
-        '아이디 중복체크를 진행해 주세요.'
+        '아이디 중복확인을 진행해 주세요.'
     ]
 
     const closeRegister = () => {
@@ -178,13 +195,13 @@ const RegisterForm:React.FC = () => {
                     </Title>
                     <Form>
                         <IdCheckContainer>
-                            <Input placeholder='아이디' id='id' autoComplete='off'/>
+                            <Input placeholder='아이디' id='id' autoComplete='off' className={idState === 0 ? 'passed' : 'denied'}/>
                             <IdDuplicateCheckButton type='button' value='중복확인' onClick={showIdState}/>
                         </IdCheckContainer>
                         {idState !== -1 ? 
-                            <ShowIdState className={idState === 0 ? 'ok' : 'error'} animate={idState} key={idState}>
-                                {stateArray[idState]}
-                            </ShowIdState> 
+                            <ShowState className={idState === 0 ? 'passed' : 'denied'} key={idState}>
+                                {idStateArray[idState]}
+                            </ShowState> 
                         : null}
                         <Input placeholder='비밀번호' id='pw' autoComplete='off'/>
                         <Input placeholder='비밀번호 확인' id='pwCheck' autoComplete='off'/>
