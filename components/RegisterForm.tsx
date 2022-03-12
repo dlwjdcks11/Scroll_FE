@@ -80,7 +80,7 @@ const Form = styled.form`
     margin-bottom: 2rem;
 `
 
-const IdCheckContainer = styled.div`
+const CheckContainer = styled.div`
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -88,11 +88,12 @@ const IdCheckContainer = styled.div`
     align-items: center;
 `
 
-const IdDuplicateCheckButton = styled.input`
+const DuplicateCheckButton = styled.input`
     font-family: 'NanumSquareRoundBold';
     width: fit-content;
     height: 1.7rem;
     margin-left: 0.5rem;
+    margin-top: 0.7rem;
     border: 0.1rem solid var(--primary);
     border-radius: 0.4rem;
     background-color: transparent;
@@ -108,10 +109,11 @@ const Input = styled.input`
     color: ${({ theme }) => theme.textColor};
     background-color: ${({ theme }) => lighten(0.2, theme.bgColor)};
     height: 2rem;
-    margin-top: 0.5rem;
+    margin-top: 0.7rem;
     border: none;
     border-bottom: 0.1rem solid var(--border_grey);
     transition: all 0.2s linear;
+    padding: 0;
 
     :focus {
         outline: none;
@@ -124,11 +126,6 @@ const Input = styled.input`
 
     ::placeholder {
         color: lightgrey;
-    }
-
-    &.passed {
-        border-bottom: 0.1rem solid var(--passed);
-        color: var(--passed);
     }
 `;
 
@@ -161,28 +158,143 @@ const Submit = styled.input`
     background-color: var(--primary);
     color: #F1F3F5;
     margin: 1rem 0 0 auto;
+
+    :hover {
+        cursor: pointer;
+    }
 `
-// 03/09 TODO: 중복확인 누르고 바뀌었을 떄 예외처리, 디자인 다시보기, 비밀번호/확인 state 설정, 정규표현식
+// 03/09 TODO: 중복확인 누르고 바뀌었을 떄 예외처리
 const RegisterForm:React.FC = () => {
     const [idState, setIdState] = useState(-1);
-    const [pwState, setPwState] = useState(false);
+    const [nicknameState, setNicknameState] = useState(-1);
+    const [pwState, setPwState] = useState(-1);
+    const [confirmPwState, setConfirmPwState] = useState(-1);
     const resetRegisterLogin = useResetRecoilState(showRegisterState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
     const idStateArray = [
         '사용 가능한 아이디 입니다.',
         '이미 존재하는 아이디 입니다.',
-        '아이디는 N자 이하의 영문, 숫자로만 이루어져야 합니다.',
-        '아이디 중복확인을 진행해 주세요.'
+        '아이디는 이메일 형식 이어야 합니다.',
+        '아이디 중복확인을 진행해 주세요.',
+        '아이디는 필수 입력 사항입니다.'
+    ]
+    const nicknameStateArray = [
+        '사용 가능한 닉네임 입니다.',
+        '이미 존재하는 닉네임 입니다.',
+        '닉네임은 2 ~ 8자의 한글, 영문, 숫자로만 이루어져야 합니다.',
+        '닉네임 중복확인을 진행해 주세요.',
+        '닉네임은 필수 입력 사항입니다.'
+    ]
+    const pwStateArray = [
+        '사용 가능한 비밀번호 입니다.',
+        '비밀번호는 4 ~ 20자의 영문, 숫자로만 이루어져야 합니다.',
+        '비밀번호는 필수 입력 사항입니다.'
+    ]
+    const confirmPwStateArray = [
+        '비밀번호가 일치합니다.',
+        '비밀번호가 일치하지 않습니다.',
+        '비밀번호 확인은 필수입니다.'
     ]
 
-    const closeRegister = () => {
+    const closeRegister = () => { // 닫기 버튼
         resetRegisterLogin();
     }
 
-    const showIdState = () => {
-        const newId = idState + 1;
-        setIdState(newId % 4);
+    const checkId = () => { // 아이디 중복체크 확인
+        const idRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        const id = (document.getElementById('id') as HTMLInputElement).value;
+
+        if (id === '') {
+            setIdState(4);
+            return;
+        }
+
+        if (!idRegexp.test(id)) {
+            setIdState(2); // 정규표현식에 걸림
+            return;
+        }
+
+        // TODO: 아이디 중복확인 필요
+
+        setIdState(0); // 전부 통과
+    }
+
+    const resetIdState = () => { // 아이디 바뀔 경우 아이디 부분 리셋
+        setIdState(-1);
+    }
+
+    const checkNickname = () => {
+        const nicknameRegexp = /^[가-힣a-zA-Z0-9]{2,8}$/;
+        const nickname = (document.getElementById('nickname') as HTMLInputElement).value;
+
+        if (nickname === '') {
+            setNicknameState(4);
+            return;
+        }
+
+        if (!nicknameRegexp.test(nickname)) {
+            setNicknameState(2); // 정규표현식에 걸림
+            return;
+        }
+
+        // TODO: 닉네임 중복확인 필요
+
+        setNicknameState(0); // 전부 통과
+    }
+
+    const resetNicknameState = () => { // 닉네임 바뀔 경우 닉네임 부분 리셋
+        setNicknameState(-1);
+    }
+
+    const checkPw = (e) => {
+        const pwRegexp = /^[A-Za-z0-9]{4,20}$/;
+        const pw = e.target.value;
+
+        setConfirmPwState(-1);
+
+        if (pw === "") {
+            setPwState(-1);
+            return;
+        }
+            
+        if (pwRegexp.test(pw))
+            setPwState(0);
+        else
+            setPwState(1);
+    }
+
+    const confirmPw = (e) => {
+        const pw = (document.getElementById('pw') as HTMLInputElement).value;
+        const pwRegexp = /^[A-Za-z0-9]{4,20}$/;
+        const confirmPw = e.target.value;
+
+        if (confirmPw === "" || !pwRegexp.test(pw)) {
+            setConfirmPwState(-1);
+            return;
+        }
+
+        if (pw === confirmPw)
+            setConfirmPwState(0);
+        else 
+            setConfirmPwState(1);
+    }
+
+    const register = () => {
+        const id = (document.getElementById('id') as HTMLInputElement).value;
+        const pw = (document.getElementById('pw') as HTMLInputElement).value;
+        const nickname = (document.getElementById('nickname') as HTMLInputElement).value;
+        
+        if (idState === -1)
+            setIdState(4);
+        if (nicknameState === -1)
+            setNicknameState(4);
+        if (pwState === -1)
+            setPwState(2);
+        if (confirmPwState === -1 && pw !== '')
+            setConfirmPwState(2);
+
+        // 추가적 예외처리 이후, 보내기
     }
 
     return (
@@ -194,20 +306,37 @@ const RegisterForm:React.FC = () => {
                         Scroll 회원가입
                     </Title>
                     <Form>
-                        <IdCheckContainer>
-                            <Input placeholder='아이디' id='id' autoComplete='off' className={idState === 0 ? 'passed' : 'denied'}/>
-                            <IdDuplicateCheckButton type='button' value='중복확인' onClick={showIdState}/>
-                        </IdCheckContainer>
+                        <CheckContainer>
+                            <Input placeholder='아이디(이메일)' id='id' autoComplete='off' onChange={resetIdState}/>
+                            <DuplicateCheckButton type='button' value='중복확인' onClick={checkId}/>
+                        </CheckContainer>
                         {idState !== -1 ? 
-                            <ShowState className={idState === 0 ? 'passed' : 'denied'} key={idState}>
+                            <ShowState className={idState === 0 ? 'passed' : 'denied'}>
                                 {idStateArray[idState]}
                             </ShowState> 
                         : null}
-                        <Input placeholder='비밀번호' id='pw' autoComplete='off'/>
-                        <Input placeholder='비밀번호 확인' id='pwCheck' autoComplete='off'/>
-                        <Input placeholder='이메일' id='email' autoComplete='off'/>
-                        <Input placeholder='닉네임' id='nickname' autoComplete='off'/>
-                        <Submit type='submit' value='회원가입'/>
+                        <CheckContainer>
+                            <Input placeholder='닉네임' id='nickname' autoComplete='off' onChange={resetNicknameState}/>
+                            <DuplicateCheckButton type='button' value='중복확인' onClick={checkNickname}/>
+                        </CheckContainer>
+                        {nicknameState !== -1 ? 
+                            <ShowState className={nicknameState === 0 ? 'passed' : 'denied'}>
+                                {nicknameStateArray[nicknameState]}
+                            </ShowState> 
+                        : null}
+                        <Input placeholder='비밀번호' id='pw' autoComplete='off' onChange={checkPw}/>
+                        {pwState !== -1 ? 
+                            <ShowState className={pwState === 0 ? 'passed' : 'denied'}>
+                                {pwStateArray[pwState]}
+                            </ShowState> 
+                        : null}
+                        <Input placeholder='비밀번호 확인' id='pwCheck' autoComplete='off' onChange={confirmPw}/>
+                        {confirmPwState !== -1 ? 
+                            <ShowState className={confirmPwState === 0 ? 'passed' : 'denied'}>
+                                {confirmPwStateArray[confirmPwState]}
+                            </ShowState> 
+                        : null}
+                        <Submit type='button' value='회원가입' onClick={register}/>
                     </Form>
                 </FormContainer>
             </DimmedDiv>

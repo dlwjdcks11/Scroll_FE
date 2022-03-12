@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import Header from '../components/Header';
 import FilterLayout from '../components/FilterLayout';
 import { currentThemeState, filterIndexState, prevFilterIndexState, showLoginState, showRegisterState } from '../components/states/state';
@@ -60,7 +60,7 @@ const Home:NextPage = () => {
     }
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <Head>
                 <title>Scroll | Home</title>
             </Head>
@@ -109,7 +109,7 @@ const Home:NextPage = () => {
                     </Images>
                 </Center>
             </Main>
-        </>
+        </ThemeProvider>
     );
 }
 

@@ -1,5 +1,5 @@
 import { darken, lighten } from "polished";
-import type React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled, { keyframes, ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from '../styles/theme/theme'
@@ -47,11 +47,14 @@ const Moon = styled.div`
     background-image: url('/moon.png');
 `
 
-const ThemeToggleButton:React.FC = () => {
+const ThemeToggleButton = ():JSX.Element => {
     const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
 
     const toggleTheme = () => {
+        const saveTheme = currentTheme ? 'LIGHT' : 'DARK';
+        localStorage.setItem('isDark', saveTheme);
+
         setCurrentTheme(!currentTheme);
     }
 

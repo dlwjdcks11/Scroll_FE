@@ -12,12 +12,12 @@
     --grey: #EEEEEE;
     --border_grey: #E2E2E2;
     --primary: #E69060;
-    --passed: #265DEE;
+    --passed: #18AD28;
     --denied: #ED326D;
 }
 
 html, body {
-    transition: color 0.5s ease;
+    transition: all 0.5s ease;
     margin: 0;
     padding: 0;
     font-family: 'NanumSquareRoundBold';

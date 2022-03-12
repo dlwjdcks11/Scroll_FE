@@ -58,7 +58,7 @@ const Header: React.FC = ({ children }) => {
     const [isVisible, setIsVisible] = useState(false);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
-    const showContents = (e) => {
+    const showContents = () => {
         setIsVisible(!isVisible);
     }
 
