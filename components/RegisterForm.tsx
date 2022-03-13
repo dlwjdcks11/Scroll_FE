@@ -294,7 +294,14 @@ const RegisterForm:React.FC = () => {
         if (confirmPwState === -1 && pw !== '')
             setConfirmPwState(2);
 
-        // 추가적 예외처리 이후, 보내기
+        if (id !== '' && idState !== 0)
+            setIdState(3);
+        if (nickname !== '' && nicknameState !== 0)
+            setNicknameState(3);
+
+        if (idState === 0 && nicknameState === 0 && pwState === 0 && confirmPwState === 0) {
+            // 통과
+        }
     }
 
     return (

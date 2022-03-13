@@ -14,7 +14,7 @@ const getTheme = async() => {
 
 export const currentThemeState = atom({
     key: 'currentThemeState',
-    default: getTheme(),
+    default: false,
 })
 
 export const prevFilterIndexState = atom({
