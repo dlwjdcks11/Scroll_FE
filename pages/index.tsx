@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import Header from '../components/Header';
 import FilterLayout from '../components/FilterLayout';
 import { currentThemeState, filterIndexState, prevFilterIndexState, showLoginState, showRegisterState } from '../components/states/state';
@@ -9,6 +9,17 @@ import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+
+type info = {
+    flatform: string[];
+    genre: string[];
+    day: string[];
+    star: boolean;
+}
+
+type infoProps = {
+    infos: info[];
+}
 
 const DimmedPage = styled.div`
     position: fixed;
@@ -59,8 +70,10 @@ const Home:NextPage = () => {
         resetPrevFilterIndex();
     }
 
+    // TODO: 필터링된 state 없으면 전체 띄우기, star state props로 보내주기
+
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <Head>
                 <title>Scroll | Home</title>
             </Head>
@@ -109,8 +122,18 @@ const Home:NextPage = () => {
                     </Images>
                 </Center>
             </Main>
-        </ThemeProvider>
+        </>
     );
 }
 
 export default Home;
+
+export const getStaticProps = async() => {
+    // 값 가져와서 
+
+    return {
+        props: {
+
+        }
+    }
+}

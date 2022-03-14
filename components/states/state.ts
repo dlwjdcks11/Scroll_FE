@@ -1,17 +1,5 @@
 import { atom, selector } from 'recoil';
 
-const getTheme = async() => {
-    if (typeof window !== 'undefined') {
-        const theme:string = window.localStorage.getItem('isDark');
-        console.log(theme);
-
-        if (theme === 'DARK')
-            return true;
-        else
-            return false;
-    }
-}
-
 export const currentThemeState = atom({
     key: 'currentThemeState',
     default: false,
@@ -108,6 +96,7 @@ export const filterDataSelector = selector({
             }
         }
 
+        console.log(newData);
         set(filterDataState, newData);
     }
 })
