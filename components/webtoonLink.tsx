@@ -7,6 +7,14 @@ import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { useState } from "react";
 import Star from '/public/star.svg';
 
+type info = {
+    title: string;
+    author: string;
+    flatform: string[];
+    genre: string[];
+    day: string[];
+}
+
 const LinkContainer = styled.a`
     display: flex;
     flex-direction: column;

@@ -52,11 +52,13 @@ const ThemeToggleButton = ():JSX.Element => {
     const theme = currentTheme ? darkTheme : lightTheme;
 
     const toggleTheme = () => {
-        const saveTheme = currentTheme ? 'LIGHT' : 'DARK';
-        localStorage.setItem('isDark', saveTheme);
-
         setCurrentTheme(!currentTheme);
     }
+
+    useEffect(() => {
+        const saveTheme = currentTheme ? 'LIGHT' : 'DARK';
+        localStorage.setItem('isDark', saveTheme);
+    }, [theme])
 
     return (
         <ThemeProvider theme={theme}>

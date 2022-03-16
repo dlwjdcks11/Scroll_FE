@@ -1,9 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import { useRecoilValue, useResetRecoilState } from "recoil";
-import styled, { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider, keyframes } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { currentThemeState, showLoginState } from "./states/state";
 import { lighten } from "polished";
+
+const vibrate = keyframes`
+    0%, 20%, 40%, 60%, 80%, 100% {
+        transform: translate(0, 0);
+    }
+    10%, 50%, 90% {
+        transform: translate(0.1rem, 0);
+    }
+    30%, 70% {
+        transform: translate(-0.1rem, 0);
+    }
+`
 
 const DimmedDiv = styled.div`
     position: fixed;
@@ -80,6 +92,21 @@ const Input = styled.input`
     }
 `;
 
+const ShowState = styled.p`
+    font-size: 12px;
+    margin: 0.5rem auto 0 0;
+    transition: color 0.5s ease;
+    animation-duration: 0.3s;
+    animation-iteration-count: 1;
+    animation-direction: alternate;
+    animation-timing-function: ease;
+
+    &.denied {
+        color: var(--denied);
+        animation-name: ${vibrate};
+    }
+`;
+
 const Submit = styled.input`
     font-family: 'NanumSquareRoundBold';
     width: 5rem;
@@ -89,9 +116,14 @@ const Submit = styled.input`
     background-color: var(--primary);
     color: #F1F3F5;
     margin: 1rem 0 0 auto;
-`
+
+    :hover {
+        cursor: pointer;
+    }
+`;
 
 const LoginForm:React.FC = () => {
+    const [isCorrect, setIsCorrect] = useState(false);
     const resetShowLogin = useResetRecoilState(showLoginState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
@@ -100,18 +132,33 @@ const LoginForm:React.FC = () => {
         resetShowLogin();
     }
 
+    const submitValues = (e) => {
+        if (typeof document !== 'undefined') {
+            const id = e.target.id.value;
+            const pw = e.target.pw.value;
+
+            if (id !== 'admin' || pw !== '1234') { // response로 바꿔야 한다.
+                e.preventDefault();
+                setIsCorrect(true);
+            }
+        }
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <DimmedDiv>
-                <FormContainer>
+                <FormContainer onSubmit={submitValues}>
                     <CloseButton onClick={closeLogin}/>
                     <Title>
                         Scroll 로그인
                     </Title>
                     <Form>
-                        <Input placeholder="아이디" id='id' autoComplete='off'/>
-                        <Input placeholder="비밀번호" id='pw' autoComplete='off'/>
-                        <Submit type="submit" value={'로그인'}/>
+                        <Input placeholder='아이디' id='id' autoComplete='off'/>
+                        <Input placeholder='비밀번호' id='pw' autoComplete='off'/>                         
+                        {isCorrect ? <ShowState className='denied' key={Math.random()}>
+                            사용자 정보가 틀렸습니다.
+                        </ShowState> : null}
+                        <Submit type='submit' value='로그인'/>
                     </Form>
                 </FormContainer>
             </DimmedDiv>

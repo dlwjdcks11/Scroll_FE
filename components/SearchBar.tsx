@@ -132,6 +132,8 @@ const SearchBar:React.FC = () => {
             setShowAutocomplete(false); 
         else
             setShowAutocomplete(true);
+
+        // fetch 필요?
     }
 
     const deleteValue = () => {
@@ -167,7 +169,7 @@ const SearchBar:React.FC = () => {
                         <option value="집이 없어"/>
                     </datalist> 
                 : null}
-            {showAutocomplete ? <DeleteButton onClick={deleteValue}/> : null}
+                {showAutocomplete ? <DeleteButton onClick={deleteValue}/> : null}
             <SubmitButton type="submit" id="search" name="search"/>
         </SearchContainer>
     )

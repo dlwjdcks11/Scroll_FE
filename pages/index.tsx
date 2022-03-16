@@ -70,7 +70,7 @@ const Home:NextPage = () => {
         resetPrevFilterIndex();
     }
 
-    // TODO: 필터링된 state 없으면 전체 띄우기, star state props로 보내주기
+    // TODO: 필터링된 state 없으면 전체 띄우기, star state props로 보내주기, 로그인 됐을 때 띄울 창 변경
 
     return (
         <>
