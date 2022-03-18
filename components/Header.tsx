@@ -4,7 +4,6 @@ import { useRecoilValue } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import DropdownContents from "./DropdownContents";
-import SearchBar from "./SearchBar";
 import { currentThemeState } from "./states/state";
 import ThemeToggleButton from "./ThemeToggleButton";
 
@@ -69,7 +68,6 @@ const Header: React.FC = ({ children }) => {
                     {children}
                 </Title>
                 <MenuContainer>
-                    <SearchBar/>
                     <ThemeToggleButton/>
                     <DropdownButton onClick={showContents}>
                         {isVisible ? <DropdownContents/> : null}

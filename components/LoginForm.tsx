@@ -127,7 +127,7 @@ const LoginForm:React.FC = () => {
     const resetShowLogin = useResetRecoilState(showLoginState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
-
+    
     const closeLogin = () => {
         resetShowLogin();
     }
@@ -155,7 +155,7 @@ const LoginForm:React.FC = () => {
                     <Form>
                         <Input placeholder='아이디' id='id' autoComplete='off'/>
                         <Input placeholder='비밀번호' id='pw' autoComplete='off'/>                         
-                        {isCorrect ? <ShowState className='denied' key={Math.random()}>
+                        {isCorrect ? <ShowState className='denied'>
                             사용자 정보가 틀렸습니다.
                         </ShowState> : null}
                         <Submit type='submit' value='로그인'/>
