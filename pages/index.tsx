@@ -9,6 +9,7 @@ import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import cookies from 'next-cookies';
 
 type info = {
     flatform: string[];
@@ -128,8 +129,9 @@ const Home:NextPage = () => {
 
 export default Home;
 
-export const getStaticProps = async() => {
-    // 값 가져와서 
+export const getServerSideProps = async(context) => {
+    const cookie = cookies(context).user || '';
+    console.log(cookie)
 
     return {
         props: {

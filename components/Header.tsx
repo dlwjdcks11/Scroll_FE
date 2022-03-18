@@ -14,7 +14,6 @@ const StyledHeader = styled.header`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    
     color: black;
     transition: all 0.5s ease;
     border-bottom: 0.1rem solid var(--border_grey);

@@ -136,11 +136,14 @@ const LoginForm:React.FC = () => {
         if (typeof document !== 'undefined') {
             const id = e.target.id.value;
             const pw = e.target.pw.value;
-
+    
             if (id !== 'admin' || pw !== '1234') { // response로 바꿔야 한다.
                 e.preventDefault();
                 setIsCorrect(true);
+                return;
             }
+    
+            document.cookie = 'user=john';
         }
     }
 
