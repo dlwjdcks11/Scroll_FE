@@ -280,7 +280,7 @@ const RegisterForm:React.FC = () => {
             setConfirmPwState(1);
     }
 
-    const register = () => {
+    const register = async () => {
         const id = (document.getElementById('id') as HTMLInputElement).value;
         const pw = (document.getElementById('pw') as HTMLInputElement).value;
         const nickname = (document.getElementById('nickname') as HTMLInputElement).value;
@@ -300,7 +300,30 @@ const RegisterForm:React.FC = () => {
             setNicknameState(3);
 
         if (idState === 0 && nicknameState === 0 && pwState === 0 && confirmPwState === 0) {
-            // 통과
+            try {
+                const response = await fetch(process.env.URL + '/account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: id,
+                        pw: pw,
+                        nickname: nickname,
+                    })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                }
+                else {
+                    alert(result.message);
+                }
+            }
+            catch (e) {
+                console.log(e);
+            }
         }
     }
 

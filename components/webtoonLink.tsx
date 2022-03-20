@@ -8,11 +8,9 @@ import { useState } from "react";
 import Star from '/public/star.svg';
 
 type info = {
+    id: number;
     title: string;
     author: string;
-    flatform: string[];
-    genre: string[];
-    day: string[];
 }
 
 const LinkContainer = styled.a`
@@ -62,6 +60,7 @@ const WebtoonInfo = styled.p`
 `;
 
 const WebtoonLink:React.FC = () => {
+    const webtoonId = -1; // props로 넘겨받은 id 저장
     const showFavorite = useRecoilValue(showFavoriteState);
     const [star, setStar] = useState(false);
     const currentTheme = useRecoilValue(currentThemeState);
@@ -72,9 +71,33 @@ const WebtoonLink:React.FC = () => {
         fill: star ? `var(--primary)` : 'lightgrey',
     }
 
-    const selectFavorite = (e) => {
+    const selectFavorite = async (e) => {
         e.stopPropagation();
+        const method = star ? 'DELETE' : 'POST';
         setStar(!star);
+
+        try {
+            const response = await fetch(process.env.URL + '/myLibrary', {
+                method: method,
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    webtoonId: webtoonId,
+                }),
+            })
+            const result = await response.json();
+
+            if (result.success) {
+
+            }
+            else {
+
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 
     return (

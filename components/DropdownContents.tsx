@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
@@ -77,6 +77,7 @@ const RegisterButton = styled(Button)`
 `
 
 const DropdownContents:React.FC = () => {
+    const [titles, setTitles] = useState([]);
     const setShowLogin = useSetRecoilState(showLoginState);
     const setShowRegister = useSetRecoilState(showRegisterState);
     const [showFavorite, setShowFavorite] = useRecoilState(showFavoriteState);
@@ -98,6 +99,32 @@ const DropdownContents:React.FC = () => {
     const checkFavorite = () => {
         setShowFavorite(!showFavorite);
     }
+
+    const getTitles = async () => {
+        try {
+            const response = await fetch(process.env.URL + '/webtoon/history', {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            });
+            const result = await response.json();
+    
+            if (result.success) {
+    
+            }
+            else {
+    
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        getTitles();
+    }, [])
 
     return (
         <ThemeProvider theme={theme}>

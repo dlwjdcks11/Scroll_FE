@@ -132,18 +132,32 @@ const LoginForm:React.FC = () => {
         resetShowLogin();
     }
 
-    const submitValues = (e) => {
-        if (typeof document !== 'undefined') {
-            const id = e.target.id.value;
-            const pw = e.target.pw.value;
-    
-            if (id !== 'admin' || pw !== '1234') { // response로 바꿔야 한다.
-                e.preventDefault();
-                setIsCorrect(true);
-                return;
+    const submitValues = async (e) => {
+        const id = e.target.id.value;
+        const pw = e.target.pw.value;
+
+        try {
+            const response = await fetch(process.env.URL + '/account/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: id,
+                    pw: pw,
+                })
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                alert(result.message);
             }
-    
-            document.cookie = 'user=john';
+            else {
+                alert(result.message);
+            }
+        }
+        catch (e) {
+            console.log(e);
         }
     }
 

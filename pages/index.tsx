@@ -9,7 +9,6 @@ import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-import cookies from 'next-cookies';
 
 type info = {
     flatform: string[];
@@ -127,15 +126,37 @@ const Home:NextPage = () => {
     );
 }
 
-export default Home;
-
-export const getServerSideProps = async(context) => {
-    const cookie = cookies(context).user || '';
-    console.log(cookie)
-
-    return {
-        props: {
+export const getStaticProps = async() => {
+    try {    
+        const response = await fetch(process.env.URL + '/webtoon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                flatform: [],
+                weekday: [],
+                genre: []
+            })
+        });
+        const result = await response.json();
+        
+        if (result.success) {
 
         }
+        else {
+
+        }
+        
+        return {
+            props: {
+                
+            },
+        }
+    }
+    catch (e) {
+        console.log(e);
     }
 }
+
+export default Home;
