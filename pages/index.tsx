@@ -126,37 +126,41 @@ const Home:NextPage = () => {
     );
 }
 
-export const getStaticProps = async() => {
-    try {    
-        const response = await fetch(process.env.URL + '/webtoon', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                flatform: [],
-                weekday: [],
-                genre: []
-            })
-        });
-        const result = await response.json();
-        
-        if (result.success) {
+// export const getServerSideProps = async (context) => {
 
-        }
-        else {
+// }
 
-        }
+// export const getStaticProps = async() => {
+//     try {    
+//         const response = await fetch(process.env.URL + '/webtoon', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 flatform: [],
+//                 weekday: [],
+//                 genre: []
+//             })
+//         });
+//         const result = await response.json();
         
-        return {
-            props: {
+//         if (result.success) {
+
+//         }
+//         else {
+
+//         }
+        
+//         return {
+//             props: {
                 
-            },
-        }
-    }
-    catch (e) {
-        console.log(e);
-    }
-}
+//             },
+//         }
+//     }
+//     catch (e) {
+//         console.log(e);
+//     }
+// }
 
 export default Home;

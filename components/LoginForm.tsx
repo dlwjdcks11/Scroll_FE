@@ -4,6 +4,7 @@ import styled, { ThemeProvider, keyframes } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { currentThemeState, showLoginState } from "./states/state";
 import { lighten } from "polished";
+import { setCookies } from 'cookies-next';
 
 const vibrate = keyframes`
     0%, 20%, 40%, 60%, 80%, 100% {
@@ -132,7 +133,12 @@ const LoginForm:React.FC = () => {
         resetShowLogin();
     }
 
+    const resetValue = () => {
+        setIsCorrect(false);
+    }
+
     const submitValues = async (e) => {
+        e.preventDefault();
         const id = e.target.id.value;
         const pw = e.target.pw.value;
 
@@ -151,6 +157,8 @@ const LoginForm:React.FC = () => {
 
             if (result.success) {
                 alert(result.message);
+                await setCookies('token', result.token);
+                resetShowLogin();
             }
             else {
                 alert(result.message);
@@ -170,8 +178,8 @@ const LoginForm:React.FC = () => {
                         Scroll 로그인
                     </Title>
                     <Form>
-                        <Input placeholder='아이디' id='id' autoComplete='off'/>
-                        <Input placeholder='비밀번호' id='pw' autoComplete='off'/>                         
+                        <Input placeholder='아이디' id='id' autoComplete='off' onChange={resetValue}/>
+                        <Input placeholder='비밀번호' id='pw' autoComplete='off' onChange={resetValue}/>                         
                         {isCorrect ? <ShowState className='denied'>
                             사용자 정보가 틀렸습니다.
                         </ShowState> : null}

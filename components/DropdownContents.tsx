@@ -4,6 +4,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { currentThemeState, showFavoriteState, showLoginState, showRegisterState } from "./states/state";
 import { lighten } from "polished"
+import { checkCookies } from "cookies-next";
 
 const DropdownContainer = styled.div`
     position: absolute;
@@ -77,6 +78,8 @@ const RegisterButton = styled(Button)`
 `
 
 const DropdownContents:React.FC = () => {
+    const isLogin = checkCookies('token');
+    console.log(isLogin);
     const [titles, setTitles] = useState([]);
     const setShowLogin = useSetRecoilState(showLoginState);
     const setShowRegister = useSetRecoilState(showRegisterState);
@@ -100,31 +103,31 @@ const DropdownContents:React.FC = () => {
         setShowFavorite(!showFavorite);
     }
 
-    const getTitles = async () => {
-        try {
-            const response = await fetch(process.env.URL + '/webtoon/history', {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                }
-            });
-            const result = await response.json();
+    // const getTitles = async () => {
+    //     try {
+    //         const response = await fetch(process.env.URL + '/webtoon/history', {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-type': 'application/json',
+    //             }
+    //         });
+    //         const result = await response.json();
     
-            if (result.success) {
+    //         if (result.success) {
     
-            }
-            else {
+    //         }
+    //         else {
     
-            }
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
+    //         }
+    //     }
+    //     catch (e) {
+    //         console.log(e);
+    //     }
+    // }
 
-    useEffect(() => {
-        getTitles();
-    }, [])
+    // useEffect(() => {
+    //     getTitles();
+    // }, [])
 
     return (
         <ThemeProvider theme={theme}>
@@ -143,8 +146,13 @@ const DropdownContents:React.FC = () => {
                     <p>왈랄랄루</p>
                 </RecentlyWatched>
                 <ButtonContainer>
-                    <LoginButton onClick={showLogin}>로그인</LoginButton>
-                    <RegisterButton onClick={showRegister}>회원가입</RegisterButton>
+                    {isLogin ? 
+                        null :
+                        <>
+                            <LoginButton onClick={showLogin}>로그인</LoginButton>
+                            <RegisterButton onClick={showRegister}>회원가입</RegisterButton>
+                        </>
+                    }
                 </ButtonContainer>
             </DropdownContainer>
         </ThemeProvider>
