@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import styled, { ThemeProvider, keyframes } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
@@ -123,7 +123,7 @@ const Submit = styled.input`
     }
 `;
 
-const LoginForm:React.FC = () => {
+const LoginForm = ():JSX.Element => {
     const [isError, setIsError] = useState(false);
     const resetShowLogin = useResetRecoilState(showLoginState);
     const currentTheme = useRecoilValue(currentThemeState);
@@ -156,7 +156,7 @@ const LoginForm:React.FC = () => {
             const result = await response.json();
 
             if (result.success) {
-                await setCookies('token', result.token);
+                setCookies('token', result.token);
                 resetShowLogin();
             }
             else {

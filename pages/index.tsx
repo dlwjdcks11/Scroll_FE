@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import FilterLayout from '../components/FilterLayout';
 import { currentThemeState, filterDataState, filterIndexState, prevFilterIndexState, showLoginState, showRegisterState } from '../components/states/state';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const DimmedPage = styled.div`
     position: fixed;
@@ -51,7 +51,7 @@ const Home:NextPage = () => {
     const showRegister = useRecoilValue(showRegisterState);
     const resetFilterIndex = useResetRecoilState(filterIndexState);
     const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
-    const currentTheme = useRecoilValue(currentThemeState);
+    const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
 
     if (typeof window === 'object')
@@ -63,10 +63,15 @@ const Home:NextPage = () => {
     }
 
     useEffect(() => {
+        const theme = localStorage.getItem('isDark') === 'DARK' ? true : false;
+        setCurrentTheme(theme);
+    }, [])
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(process.env.URL + '/webtoon', {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         'Content-type' : 'application/json',
                     },    
@@ -77,7 +82,6 @@ const Home:NextPage = () => {
                 const result = await response.json();
                 const { webtoon } = result;
                 setWebtoons(webtoon);
-                console.log('in effect: ', webtoons);
             }
             catch (e) {
                 console.log(e);
@@ -85,8 +89,6 @@ const Home:NextPage = () => {
         }
         fetchData();
     }, [filterData])
-
-    console.log('after effect: ', webtoons);
 
     return (
         <>
@@ -103,9 +105,10 @@ const Home:NextPage = () => {
                 <Center>
                     <FilterLayout/>
                     <Images>
-                        { webtoons.map(value => { 
+                        {webtoons.map((value, index) => { 
                             return <WebtoonLink 
-                                    webtoonId={value.webtoonId} 
+                                    key={index}
+                                    id={value.id} 
                                     title={value.title} 
                                     thumbnail={value.thumbnail} 
                                     link={value.link}

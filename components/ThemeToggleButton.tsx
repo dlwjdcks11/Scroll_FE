@@ -1,5 +1,5 @@
 import { darken, lighten } from "polished";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled, { keyframes, ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from '../styles/theme/theme'
@@ -53,12 +53,12 @@ const ThemeToggleButton = ():JSX.Element => {
 
     const toggleTheme = () => {
         setCurrentTheme(!currentTheme);
-    }
 
-    useEffect(() => {
-        const saveTheme = currentTheme ? 'LIGHT' : 'DARK';
-        localStorage.setItem('isDark', saveTheme);
-    }, [theme])
+        if (typeof localStorage !== 'undefined') {
+            const saveTheme = currentTheme ? 'LIGHT' : 'DARK';
+            localStorage.setItem('isDark', saveTheme);
+        }
+    }
 
     return (
         <ThemeProvider theme={theme}>

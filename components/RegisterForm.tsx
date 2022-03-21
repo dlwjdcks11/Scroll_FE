@@ -166,7 +166,7 @@ const Submit = styled.input`
         background-color: black;
     }
 `
-// 03/09 TODO: 중복확인 누르고 바뀌었을 떄 예외처리
+
 const RegisterForm:React.FC = () => {
     const setShowRegister = useSetRecoilState(showRegisterState);
     const [idState, setIdState] = useState(-1);

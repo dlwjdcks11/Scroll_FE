@@ -112,6 +112,7 @@ const DropdownContents:React.FC = () => {
         try {
             const response = await fetch(process.env.URL + '/account/logout');
             const result = await response.json();
+            console.log(result);
     
             if (result.success) {
                 await removeCookies('token');
@@ -156,8 +157,12 @@ const DropdownContents:React.FC = () => {
             <DropdownContainer onClick={stopPropagation}>
                 <Menu>
                     <MenuTitle>메뉴</MenuTitle>
-                    <input type="checkbox" style={{ margin: '0.8rem 0.5rem 0 1rem' }} onChange={checkFavorite} checked={showFavorite}/>
-                    <span>즐겨찾기만 보기</span>
+                    {isLogin ? 
+                        <>
+                            <input type="checkbox" style={{ margin: '0.8rem 0.5rem 0 1rem' }} onChange={checkFavorite} checked={showFavorite}/>
+                            <span>즐겨찾기만 보기</span>
+                        </> 
+                        : null}
                 </Menu>
                 <RecentlyWatched>
                     <MenuTitle>최근 본 만화</MenuTitle>
