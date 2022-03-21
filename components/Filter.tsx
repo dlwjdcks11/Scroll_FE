@@ -13,7 +13,7 @@ const tempDB = [
 type filterProps = {
     children: React.ReactNode,
     index: number,
-}
+};
 
 const ClickSection = styled.div`
     display: flex;
@@ -57,7 +57,7 @@ const FilterExplanation = styled.p`
 `
 
 const Filter:React.FC<filterProps> = ({ children, index }) => {
-    const titleArray = ['flatform', 'genre', 'day'];
+    const titleArray = ['platform', 'genre', 'weekday'];
     const filterData = useRecoilValue(filterDataState);
     const [filterIndex, setFilterIndex] = useRecoilState(filterIndexState);
     const setPrevFilterIndex = useSetRecoilState(prevFilterIndexState)

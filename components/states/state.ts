@@ -38,9 +38,9 @@ export const loginState = atom({
 export const filterDataState = atom({
     key: 'filterDataState',
     default: {
-        flatform: [],
+        platform: [],
         genre: [],
-        day: [],
+        weekday: [],
     }
 })
 
@@ -53,19 +53,19 @@ export const filterDataSelector = selector({
         let newData = {};
 
         if (filterIndex === 0) {
-            const flatform = filterData.flatform;
-            let newFlatform = []
+            const platform = filterData.platform;
+            let newPlatform = []
 
-            if (flatform.includes(newState)) {
-                newFlatform = flatform.filter(v => v !== newState);
+            if (platform.includes(newState)) {
+                newPlatform = platform.filter(v => v !== newState);
             }
             else {
-                newFlatform = [...flatform, newState];
+                newPlatform = [...platform, newState];
             }
 
             newData = {
                 ...filterData,
-                flatform: newFlatform,
+                platform: newPlatform,
             }
         }
         else if (filterIndex === 1) {
@@ -85,23 +85,22 @@ export const filterDataSelector = selector({
             }
         }
         else if (filterIndex === 2) {
-            const day = filterData.day;
-            let newDay = []
+            const weekday = filterData.weekday;
+            let newWeekday = []
 
-            if (day.includes(newState)) {
-                newDay = day.filter(v => v !== newState);
+            if (weekday.includes(newState)) {
+                newWeekday = weekday.filter(v => v !== newState);
             }
             else {
-                newDay = [...day, newState];
+                newWeekday = [...weekday, newState];
             }
 
             newData = {
                 ...filterData,
-                day: newDay,
+                day: newWeekday,
             }
         }
 
-        console.log(newData);
         set(filterDataState, newData);
     }
 })

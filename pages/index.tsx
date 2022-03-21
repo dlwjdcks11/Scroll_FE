@@ -3,23 +3,13 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import FilterLayout from '../components/FilterLayout';
-import { currentThemeState, filterIndexState, prevFilterIndexState, showLoginState, showRegisterState } from '../components/states/state';
+import { currentThemeState, filterDataState, filterIndexState, prevFilterIndexState, showLoginState, showRegisterState } from '../components/states/state';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { darkTheme, lightTheme } from '../styles/theme/theme';
 import WebtoonLink from '../components/WebtoonLink';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-
-type info = {
-    flatform: string[];
-    genre: string[];
-    day: string[];
-    star: boolean;
-}
-
-type infoProps = {
-    infos: info[];
-}
+import { useEffect, useState } from 'react';
 
 const DimmedPage = styled.div`
     position: fixed;
@@ -54,6 +44,8 @@ const Images = styled.div`
 `
 
 const Home:NextPage = () => {
+    const [webtoons, setWebtoons] = useState([]);
+    const filterData = useRecoilValue(filterDataState);
     const filterIndex = useRecoilValue(filterIndexState);
     const showLogin = useRecoilValue(showLoginState);
     const showRegister = useRecoilValue(showRegisterState);
@@ -70,7 +62,31 @@ const Home:NextPage = () => {
         resetPrevFilterIndex();
     }
 
-    // TODO: 필터링된 state 없으면 전체 띄우기, star state props로 보내주기, 로그인 됐을 때 띄울 창 변경
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(process.env.URL + '/webtoon', {
+                    method: 'GET',
+                    headers: {
+                        'Content-type' : 'application/json',
+                    },    
+                    // body: JSON.stringify({
+                    //     filterData
+                    // }),
+                })
+                const result = await response.json();
+                const { webtoon } = result;
+                setWebtoons(webtoon);
+                console.log('in effect: ', webtoons);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+        fetchData();
+    }, [filterData])
+
+    console.log('after effect: ', webtoons);
 
     return (
         <>
@@ -87,80 +103,21 @@ const Home:NextPage = () => {
                 <Center>
                     <FilterLayout/>
                     <Images>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
-                        <WebtoonLink/>
+                        { webtoons.map(value => { 
+                            return <WebtoonLink 
+                                    webtoonId={value.webtoonId} 
+                                    title={value.title} 
+                                    thumbnail={value.thumbnail} 
+                                    link={value.link}
+                                    author={value.author}
+                                    bookmark={value.bookmark}
+                            /> 
+                        })}
                     </Images>
                 </Center>
             </Main>
         </>
     );
 }
-
-// export const getServerSideProps = async (context) => {
-
-// }
-
-// export const getStaticProps = async() => {
-//     try {    
-//         const response = await fetch(process.env.URL + '/webtoon', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({
-//                 flatform: [],
-//                 weekday: [],
-//                 genre: []
-//             })
-//         });
-//         const result = await response.json();
-        
-//         if (result.success) {
-
-//         }
-//         else {
-
-//         }
-        
-//         return {
-//             props: {
-                
-//             },
-//         }
-//     }
-//     catch (e) {
-//         console.log(e);
-//     }
-// }
 
 export default Home;

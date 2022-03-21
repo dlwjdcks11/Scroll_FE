@@ -1,16 +1,24 @@
 import type React from "react";
 import Link from "next/link";
-import styled, { ThemeProvider } from "styled-components";
-import { useRecoilValue } from "recoil";
-import { currentThemeState, showFavoriteState } from "./states/state";
+import styled, { css, ThemeProvider } from "styled-components";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { currentThemeState, showFavoriteState, showLoginState } from "./states/state";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { useState } from "react";
 import Star from '/public/star.svg';
+import { checkCookies } from "cookies-next";
 
 type info = {
-    id: number;
+    webtoonId: number;
     title: string;
-    author: string;
+    thumbnail: string,
+    link: string;
+    author: string[];
+    bookmark: boolean;
+}
+
+type thumbnailProp = {
+    url: string;
 }
 
 const LinkContainer = styled.a`
@@ -24,11 +32,17 @@ const LinkContainer = styled.a`
     }
 `;
 
-const Thumbnail = styled.div`
-    background-color: ${({ theme }) => theme.textColor};
+const Thumbnail = styled.div<thumbnailProp>`
+    background-repeat: no-repeat;
+    background-size: contain;
     width: 9rem;
     height: 13rem;
     border-radius: 0.4rem;
+
+    ${props => props.url && css<thumbnailProp>`
+        background-image: url(${props.url});
+
+    `}
 `
 
 const InfoContainer = styled.div`
@@ -59,10 +73,11 @@ const WebtoonInfo = styled.p`
     color: grey;
 `;
 
-const WebtoonLink:React.FC = () => {
-    const webtoonId = -1; // props로 넘겨받은 id 저장
+const WebtoonLink:React.FC<info> = (props) => {
+    const webtoonId = props.webtoonId;
+    const setShowLogin = useSetRecoilState(showLoginState);
     const showFavorite = useRecoilValue(showFavoriteState);
-    const [star, setStar] = useState(false);
+    const [star, setStar] = useState(props.bookmark);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
     const starStyle = {
@@ -71,8 +86,17 @@ const WebtoonLink:React.FC = () => {
         fill: star ? `var(--primary)` : 'lightgrey',
     }
 
+    console.log(props);
+
     const selectFavorite = async (e) => {
         e.stopPropagation();
+
+        if (!checkCookies('token')) {
+            alert('먼저 로그인을 진행해 주세요.');
+            setShowLogin(true);
+            return;
+        }
+        
         const method = star ? 'DELETE' : 'POST';
         setStar(!star);
 
@@ -104,16 +128,16 @@ const WebtoonLink:React.FC = () => {
         showFavorite ? (
             star ? 
             <ThemeProvider theme={theme}>
-                <Link href={`/`}>
+                <Link href={props.link}>
                     <LinkContainer>
-                        <Thumbnail/>
+                        <Thumbnail url={props.thumbnail}/>
                         <InfoContainer>
                             <DetailContainer>
                                 <WebtoonTitle>
-                                    title
+                                    {props.title}
                                 </WebtoonTitle>
                                 <WebtoonInfo>
-                                    author
+                                    {props.author}
                                 </WebtoonInfo>  
                             </DetailContainer>
                             <IconContainer onClick={selectFavorite}>
@@ -125,16 +149,16 @@ const WebtoonLink:React.FC = () => {
             </ThemeProvider> : null
         ) :
         <ThemeProvider theme={theme}>
-            <Link href={`/`}>
+            <Link href={props.link}>
                 <LinkContainer>
-                    <Thumbnail/>
+                    <Thumbnail url={props.thumbnail}/>
                     <InfoContainer>
                         <DetailContainer>
                             <WebtoonTitle>
-                                title
+                                {props.title}
                             </WebtoonTitle>
                             <WebtoonInfo>
-                                author
+                                {props.author}
                             </WebtoonInfo>  
                         </DetailContainer>
                         <IconContainer onClick={selectFavorite}>

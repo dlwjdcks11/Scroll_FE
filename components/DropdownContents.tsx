@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { currentThemeState, showFavoriteState, showLoginState, showRegisterState } from "./states/state";
 import { lighten } from "polished"
-import { checkCookies } from "cookies-next";
+import { checkCookies, removeCookies } from "cookies-next";
 
 const DropdownContainer = styled.div`
     position: absolute;
@@ -77,10 +77,15 @@ const RegisterButton = styled(Button)`
     color: var(--primary);
 `
 
+const LogoutButton = styled(Button)`
+    margin-right: 0.5rem;
+    background-color: var(--primary);
+    border: 0.1rem solid var(--primary);
+    color: #F1F3F6;
+`
+
 const DropdownContents:React.FC = () => {
     const isLogin = checkCookies('token');
-    console.log(isLogin);
-    const [titles, setTitles] = useState([]);
     const setShowLogin = useSetRecoilState(showLoginState);
     const setShowRegister = useSetRecoilState(showRegisterState);
     const [showFavorite, setShowFavorite] = useRecoilState(showFavoriteState);
@@ -101,6 +106,23 @@ const DropdownContents:React.FC = () => {
 
     const checkFavorite = () => {
         setShowFavorite(!showFavorite);
+    }
+
+    const logout = async () => {
+        try {
+            const response = await fetch(process.env.URL + '/account/logout');
+            const result = await response.json();
+    
+            if (result.success) {
+                await removeCookies('token');
+            }
+            else {
+    
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 
     // const getTitles = async () => {
@@ -147,7 +169,7 @@ const DropdownContents:React.FC = () => {
                 </RecentlyWatched>
                 <ButtonContainer>
                     {isLogin ? 
-                        null :
+                        <LogoutButton onClick={logout}>로그아웃</LogoutButton> :
                         <>
                             <LoginButton onClick={showLogin}>로그인</LoginButton>
                             <RegisterButton onClick={showRegister}>회원가입</RegisterButton>

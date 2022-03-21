@@ -16,7 +16,7 @@ const nextConfig = {
         styledComponents: true,
     },
     env: {
-        URL: 'http://54.180.93.229:3000'
+        URL: 'http://3.38.141.82:3000'
     },
 };
 

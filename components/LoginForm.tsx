@@ -124,7 +124,7 @@ const Submit = styled.input`
 `;
 
 const LoginForm:React.FC = () => {
-    const [isCorrect, setIsCorrect] = useState(false);
+    const [isError, setIsError] = useState(false);
     const resetShowLogin = useResetRecoilState(showLoginState);
     const currentTheme = useRecoilValue(currentThemeState);
     const theme = currentTheme ? darkTheme : lightTheme;
@@ -134,7 +134,7 @@ const LoginForm:React.FC = () => {
     }
 
     const resetValue = () => {
-        setIsCorrect(false);
+        setIsError(false);
     }
 
     const submitValues = async (e) => {
@@ -156,12 +156,11 @@ const LoginForm:React.FC = () => {
             const result = await response.json();
 
             if (result.success) {
-                alert(result.message);
                 await setCookies('token', result.token);
                 resetShowLogin();
             }
             else {
-                alert(result.message);
+                setIsError(true);
             }
         }
         catch (e) {
@@ -180,7 +179,7 @@ const LoginForm:React.FC = () => {
                     <Form>
                         <Input placeholder='아이디' id='id' autoComplete='off' onChange={resetValue}/>
                         <Input placeholder='비밀번호' id='pw' autoComplete='off' onChange={resetValue}/>                         
-                        {isCorrect ? <ShowState className='denied'>
+                        {isError ? <ShowState className='denied'>
                             사용자 정보가 틀렸습니다.
                         </ShowState> : null}
                         <Submit type='submit' value='로그인'/>
