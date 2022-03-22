@@ -44,7 +44,7 @@ const InfoContainer = styled.div`
     width: 100%;
 `
 
-const DetailContainer = styled.a`
+const DetailContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 7.5rem;
@@ -74,7 +74,7 @@ const AuthorInfo = styled.p`
 `;
 
 const WebtoonLink:React.FC<info> = (props) => {
-    const webtoonId = props.id;
+    const webtoonID = props.id;
     const setShowLogin = useSetRecoilState(showLoginState);
     const showFavorite = useRecoilValue(showFavoriteState);
     const [star, setStar] = useState(props.bookmark);
@@ -84,6 +84,35 @@ const WebtoonLink:React.FC<info> = (props) => {
         width: '1rem',
         height: '1rem',
         fill: star ? `var(--primary)` : 'lightgrey',
+    }
+
+    const moveToWebtoon = async (e) => {
+        e.stopPropagation();
+        
+        if (typeof window !== 'undefined') {
+            try {
+                const response = await fetch(process.env.URL + '/webtoon/history', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        webtoonID: webtoonID,
+                    })
+                })
+                const result = await response.json();
+    
+                if (result.success) {
+                    window.open(props.link);
+                }
+                else {
+                    alert(result.message);
+                }
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }
     }
 
     const selectFavorite = async (e) => {
@@ -106,7 +135,7 @@ const WebtoonLink:React.FC<info> = (props) => {
                 },
                 body: JSON.stringify({
                     token: token,
-                    webtoonId: webtoonId,
+                    webtoonID: webtoonID,
                 }),
             })
             const result = await response.json();
@@ -130,7 +159,7 @@ const WebtoonLink:React.FC<info> = (props) => {
                     <LinkContainer>
                         <Thumbnail url={props.thumbnail}/>
                         <InfoContainer>
-                            <DetailContainer href={props.link}>
+                            <DetailContainer onClick={moveToWebtoon}>
                                 <WebtoonTitle>
                                     {props.title}
                                 </WebtoonTitle>
@@ -149,7 +178,7 @@ const WebtoonLink:React.FC<info> = (props) => {
                 <LinkContainer>
                     <Thumbnail url={props.thumbnail}/>
                     <InfoContainer>
-                        <DetailContainer href={props.link}>
+                        <DetailContainer onClick={moveToWebtoon}>
                             <WebtoonTitle>
                                 {props.title}
                             </WebtoonTitle>
