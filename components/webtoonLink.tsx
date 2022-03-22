@@ -88,31 +88,31 @@ const WebtoonLink:React.FC<info> = (props) => {
 
     const moveToWebtoon = async (e) => {
         e.stopPropagation();
-        
-        if (typeof window !== 'undefined') {
-            try {
-                const response = await fetch(process.env.URL + '/webtoon/history', {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        webtoonID: webtoonID,
-                    })
-                })
-                const result = await response.json();
+        window.open(props.link);
+        // if (typeof window !== 'undefined') {
+        //     try {
+        //         const response = await fetch(process.env.URL + '/webtoon/click', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-type': 'application/json',
+        //             },
+        //             body: JSON.stringify({
+        //                 webtoonID: webtoonID,
+        //             })
+        //         })
+        //         const result = await response.json();
     
-                if (result.success) {
-                    window.open(props.link);
-                }
-                else {
-                    alert(result.message);
-                }
-            }
-            catch(e) {
-                console.log(e);
-            }
-        }
+        //         if (result.success) {
+        //             window.open(props.link);
+        //         }
+        //         else {
+        //             alert(result.message);
+        //         }
+        //     }
+        //     catch(e) {
+        //         console.log(e);
+        //     }
+        // }
     }
 
     const selectFavorite = async (e) => {

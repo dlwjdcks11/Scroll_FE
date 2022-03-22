@@ -53,49 +53,6 @@ const Images = styled.div`
     gap: 1.5rem 2%;
 `
 
-const Spinner = styled.div`
-    color: var(--primary);
-    font-size: 12px;
-    text-indent: -99999rem;
-    margin: 55px auto;
-    position: relative;
-    width: 10rem;
-    height: 10rem;
-    box-shadow: inset 0 0 0 1rem;
-    transform: translateZ(0);
-
-    &, :before, :after {
-        border-radius: 50%;
-    }
-    :before, :after {
-        content: '';
-        position: absolute;
-        background-color: ${({ theme }) => theme.bgColor};
-        animation-name: ${loading};
-        animation-duration: 2s;
-        animation-iteration-count: infinite;
-        animation-timing-function: ease;
-        animation-fill-mode: backwards;
-    }
-    :before {
-        width: 5.2rem;
-        height: 10.2rem;
-        border-radius: 10.2rem 0 0 10.2rem;
-        top: -0.1rem;
-        left: -0.1rem;
-        transform-origin: 5.1rem 5.1rem;
-        animation-delay: 1.5s;
-    }
-    :after {
-        width: 5.2rem;
-        height: 10.2rem;
-        border-radius: 0 10.2rem 10.2rem 0;
-        top: -0.1rem;
-        left: 4.9rem;
-        transform-origin: 0.1rem 5.1rem;
-    }
-`
-
 const Home:NextPage = () => {
     const [webtoons, setWebtoons] = useState([]);
     const filterData = useRecoilValue(filterDataState);
@@ -159,12 +116,11 @@ const Home:NextPage = () => {
             <Main>
                 <Center>
                     <FilterLayout/>
-                    <Suspense fallback={<Spinner/>}>   
                         <Images>
-                            {webtoons.map((value, index) => { 
+                            {webtoons && webtoons.map((value, index) => { 
                                 return <WebtoonLink 
                                     key={index}
-                                    id={value.id} 
+                                    id={value.webtoonid} 
                                     title={value.title} 
                                     thumbnail={value.thumbnail} 
                                     link={value.link}
@@ -173,7 +129,6 @@ const Home:NextPage = () => {
                                 /> 
                             })}
                         </Images>
-                    </Suspense>
                 </Center>
             </Main>
         </ThemeProvider>
