@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { currentThemeState, showFavoriteState, showLoginState, showRegisterState } from "./states/state";
 import { lighten } from "polished"
-import { checkCookies, removeCookies } from "cookies-next";
+import { checkCookies, getCookie, removeCookies } from "cookies-next";
 
 const DropdownContainer = styled.div`
     position: absolute;
@@ -109,16 +109,26 @@ const DropdownContents:React.FC = () => {
     }
 
     const logout = async () => {
+        const token = getCookie('token');
+ 
         try {
-            const response = await fetch(process.env.URL + '/account/logout');
+            const response = await fetch(process.env.URL + '/account/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-type' : 'application-json',
+                },
+                body: JSON.stringify({
+                    token: token,
+                })
+            });
             const result = await response.json();
             console.log(result);
     
             if (result.success) {
-                await removeCookies('token');
+                removeCookies('token');
             }
             else {
-    
+                alert(result.message);
             }
         }
         catch (e) {
@@ -126,29 +136,28 @@ const DropdownContents:React.FC = () => {
         }
     }
 
-    // const getTitles = async () => {
-    //     try {
-    //         const response = await fetch(process.env.URL + '/webtoon/history', {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-type': 'application/json',
-    //             }
-    //         });
-    //         const result = await response.json();
-    
-    //         if (result.success) {
-    
-    //         }
-    //         else {
-    
-    //         }
-    //     }
-    //     catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
     // useEffect(() => {
+    //     const getTitles = async () => {
+    //         try {
+    //             const response = await fetch(process.env.URL + '/webtoon/history', {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-type': 'application/json',
+    //                 }
+    //             });
+    //             const result = await response.json();
+        
+    //             if (result.success) {
+        
+    //             }
+    //             else {
+        
+    //             }
+    //         }
+    //         catch (e) {
+    //             console.log(e);
+    //         }
+    //     }
     //     getTitles();
     // }, [])
 
@@ -156,9 +165,9 @@ const DropdownContents:React.FC = () => {
         <ThemeProvider theme={theme}>
             <DropdownContainer onClick={stopPropagation}>
                 <Menu>
-                    <MenuTitle>메뉴</MenuTitle>
                     {isLogin ? 
                         <>
+                            <MenuTitle>즐겨찾기</MenuTitle>
                             <input type="checkbox" style={{ margin: '0.8rem 0.5rem 0 1rem' }} onChange={checkFavorite} checked={showFavorite}/>
                             <span>즐겨찾기만 보기</span>
                         </> 

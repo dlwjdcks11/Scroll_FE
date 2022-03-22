@@ -101,6 +101,7 @@ export const filterDataSelector = selector({
             }
         }
 
+        console.log(newData);
         set(filterDataState, newData);
     }
 })

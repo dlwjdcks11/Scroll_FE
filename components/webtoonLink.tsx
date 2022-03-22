@@ -5,7 +5,7 @@ import { currentThemeState, showFavoriteState, showLoginState } from "./states/s
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { useState } from "react";
 import Star from '/public/star.svg';
-import { checkCookies } from "cookies-next";
+import { checkCookies, getCookie } from "cookies-next";
 
 type info = {
     id: number;
@@ -96,6 +96,7 @@ const WebtoonLink:React.FC<info> = (props) => {
         }
         
         const method = star ? 'DELETE' : 'POST';
+        const token = getCookie('token');
 
         try {
             const response = await fetch(process.env.URL + '/myLibrary', {
@@ -104,17 +105,17 @@ const WebtoonLink:React.FC<info> = (props) => {
                     'Content-type': 'application/json',
                 },
                 body: JSON.stringify({
+                    token: token,
                     webtoonId: webtoonId,
                 }),
             })
             const result = await response.json();
-            console.log(result);
 
             if (result.success) {
                 setStar(!star);
             }
             else {
-                setStar(!star);
+                alert(result.meesage);
             }
         }
         catch (e) {

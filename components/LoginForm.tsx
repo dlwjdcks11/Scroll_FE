@@ -154,7 +154,7 @@ const LoginForm = ():JSX.Element => {
                 })
             });
             const result = await response.json();
-
+            console.log(result);
             if (result.success) {
                 setCookies('token', result.token);
                 resetShowLogin();
