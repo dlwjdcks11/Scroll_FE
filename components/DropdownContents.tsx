@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
@@ -139,12 +139,7 @@ const DropdownContents:React.FC = () => {
     // useEffect(() => {
     //     const getTitles = async () => {
     //         try {
-    //             const response = await fetch(process.env.URL + '/webtoon/history', {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     'Content-type': 'application/json',
-    //                 }
-    //             });
+    //             const response = await fetch(process.env.URL + '/webtoon/history');
     //             const result = await response.json();
         
     //             if (result.success) {

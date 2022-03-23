@@ -23,7 +23,6 @@ type thumbnailProp = {
 const LinkContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 `;
 
@@ -31,7 +30,7 @@ const Thumbnail = styled.div<thumbnailProp>`
     background-repeat: no-repeat;
     background-size: 9rem 13rem;
     width: 9rem;
-    height: 13rem;
+    min-height: 13rem;
     border-radius: 0.4rem;
 
     ${props => props.url && css<thumbnailProp>`
@@ -49,6 +48,7 @@ const DetailContainer = styled.div`
     flex-direction: column;
     width: 7.5rem;
     text-decoration: none;
+    margin-bottom: 1rem;
 
     :hover {
         cursor: pointer;
@@ -57,12 +57,11 @@ const DetailContainer = styled.div`
 
 const IconContainer = styled.div`
     display: flex;
-    margin-top: 0.3rem;
+    margin: 0.3rem 0 0 0.7rem;
 `;
 
 const WebtoonTitle = styled.p`
     margin: 0.3rem 0 0.1rem 0.5rem;
-    max-height: 1rem;
     color: ${({ theme }) => theme.textColor};
 `;
 
@@ -88,7 +87,7 @@ const WebtoonLink:React.FC<info> = (props) => {
 
     const moveToWebtoon = async (e) => {
         e.stopPropagation();
-        window.open(props.link);
+        
         // if (typeof window !== 'undefined') {
         //     try {
         //         const response = await fetch(process.env.URL + '/webtoon/click', {
