@@ -26,14 +26,14 @@ const LinkContainer = styled.div`
     align-items: center;
 `;
 
-const Thumbnail = styled.div<thumbnailProp>`
+const Thumbnail = styled.div`
     background-repeat: no-repeat;
     background-size: 9rem 9rem;
     width: 9rem;
     min-height: 9rem;
     border-radius: 0.4rem;
 
-    ${props => props.url && css<thumbnailProp>`
+    ${props => props.url && css`
         background-image: ${props.url !== '' ? `url(${props.url})` : `url(/noImage.jpg)`};
     `}
 `
