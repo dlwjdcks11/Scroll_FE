@@ -18,6 +18,9 @@ const nextConfig = {
     env: {
         URL: 'http://3.38.141.82:3000'
     },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 };
 
 module.exports = nextConfig;
