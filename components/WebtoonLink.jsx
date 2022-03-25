@@ -1,4 +1,4 @@
-import type React from "react";
+import React from "react";
 import styled, { css, ThemeProvider } from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentThemeState, recentlyWatchedState, showFavoriteState, showLoginState } from "./states/state";
@@ -7,18 +7,18 @@ import { useState } from "react";
 import Star from '/public/star.svg';
 import { checkCookies, getCookie } from "cookies-next";
 
-type info = {
-    id: number;
-    title: string;
-    thumbnail: string,
-    link: string;
-    author: string[];
-    bookmark: boolean;
-}
+// type info = {
+//     id: number;
+//     title: string;
+//     thumbnail: string,
+//     link: string;
+//     author: string[];
+//     bookmark: boolean;
+// }
 
-type thumbnailProp = {
-    url: string;
-}
+// type thumbnailProp = {
+//     url: string;
+// }
 
 const LinkContainer = styled.div`
     display: flex;
@@ -72,7 +72,7 @@ const AuthorInfo = styled.p`
     font-size: 12px;
 `;
 
-const WebtoonLink:React.FC<info> = (props) => {
+const WebtoonLink = (props) => {
     const webtoonID = props.id;
     const setRecentlyWatched = useSetRecoilState(recentlyWatchedState);
     const setShowLogin = useSetRecoilState(showLoginState);
