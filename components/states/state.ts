@@ -35,6 +35,11 @@ export const loginState = atom({
     default: false,
 })
 
+export const recentlyWatchedState = atom({
+    key: 'recentlyWatchedState',
+    default: '',
+})
+
 export const filterDataState = atom({
     key: 'filterDataState',
     default: {
@@ -97,7 +102,7 @@ export const filterDataSelector = selector({
 
             newData = {
                 ...filterData,
-                day: newWeekday,
+                weekday: newWeekday,
             }
         }
 

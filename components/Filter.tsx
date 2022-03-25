@@ -4,12 +4,6 @@ import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState 
 import styled from "styled-components";
 import { filterDataState, filterIndexState, prevFilterIndexState } from "./states/state";
 
-const tempDB = [
-    ['네이버', '레진', '탑툰', '카카오페이지', '다음', '투믹스', '마나토끼'],
-    ['스릴러', '일상', '로맨스', '드라마', '개그', '공포', '느와르', '액션', '스포츠', '판타지', '연애', '추리', '학원'],
-    ['월', '화', '수', '목', '금', '토', '일']
-];
-
 type filterProps = {
     children: React.ReactNode,
     index: number,
@@ -63,7 +57,7 @@ const Filter:React.FC<filterProps> = ({ children, index }) => {
     const setPrevFilterIndex = useSetRecoilState(prevFilterIndexState)
     const resetFilterIndex = useResetRecoilState(filterIndexState);
     const resetPrevFilterIndex = useResetRecoilState(prevFilterIndexState);
-    const sortedData = filterData[titleArray[index]].slice().sort((a:string, b:string) => { return Number(a) - Number(b) });
+    const sortedData = filterData[titleArray[index]]; // 요일 정리 필요
 
     const showCheckboxes = () => { 
         if (filterIndex === index) {
@@ -84,9 +78,9 @@ const Filter:React.FC<filterProps> = ({ children, index }) => {
                 {children}
             </FilterTitle>
             <FilterExplanation>
-                {sortedData.length === 0 ? '선택 사항 없음' : 
+                {sortedData && sortedData.length === 0 ? '선택 사항 없음' : 
                     sortedData.map(element => {
-                        return tempDB[index][Number(element)] + ' ';
+                        return element + ' ';
                     })
                 }
             </FilterExplanation>

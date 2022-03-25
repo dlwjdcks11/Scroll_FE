@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
-import { currentThemeState, showFavoriteState, showLoginState, showRegisterState } from "./states/state";
+import { currentThemeState, recentlyWatchedState, showFavoriteState, showLoginState, showRegisterState } from "./states/state";
 import { lighten } from "polished"
 import { checkCookies, getCookie, removeCookies } from "cookies-next";
 
@@ -84,7 +84,15 @@ const LogoutButton = styled(Button)`
     color: #F1F3F6;
 `
 
+const RecentlyWatchedContent = styled.p`
+    :hover {
+        cursor: pointer;
+    }
+`
+
 const DropdownContents:React.FC = () => {
+    const [recent, setRecent] = useState([]);
+    const recentlyWatched = useRecoilValue(recentlyWatchedState);
     const isLogin = checkCookies('token');
     const setShowLogin = useSetRecoilState(showLoginState);
     const setShowRegister = useSetRecoilState(showRegisterState);
@@ -110,7 +118,7 @@ const DropdownContents:React.FC = () => {
 
     const logout = async () => {
         const token = getCookie('token');
- 
+
         try {
             const response = await fetch(process.env.URL + '/account/logout', {
                 method: 'POST',
@@ -122,7 +130,6 @@ const DropdownContents:React.FC = () => {
                 })
             });
             const result = await response.json();
-            console.log(result);
     
             if (result.success) {
                 removeCookies('token');
@@ -136,25 +143,57 @@ const DropdownContents:React.FC = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const getTitles = async () => {
-    //         try {
-    //             const response = await fetch(process.env.URL + '/webtoon/history');
-    //             const result = await response.json();
+    const moveToWebtoon = async (webtoonid, link, e) => {
+        e.stopPropagation();
         
-    //             if (result.success) {
-        
-    //             }
-    //             else {
-        
-    //             }
-    //         }
-    //         catch (e) {
-    //             console.log(e);
-    //         }
-    //     }
-    //     getTitles();
-    // }, [])
+        if (typeof window !== 'undefined') {
+            try {
+                const response = await fetch(process.env.URL + '/webtoon/click', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        webtoonID: webtoonid,
+                    })
+                })
+                const result = await response.json();
+    
+                if (result.success) {
+                    window.open(link);
+                }
+                else {
+                    alert(result.message);
+                }
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }
+    }
+
+    useEffect(() => {
+        const getTitles = async () => {
+            try {
+                const response = await fetch(process.env.URL + '/webtoon/history');
+                const result = await response.json();
+
+                if (result.success) {
+                    const { webtoon } = result;
+                    setRecent(webtoon);
+                }
+                else {
+                    console.log(result);
+                }
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+        getTitles();
+    }, [recentlyWatched])
+
+    console.log('recent: ', recent);
 
     return (
         <ThemeProvider theme={theme}>
@@ -170,11 +209,11 @@ const DropdownContents:React.FC = () => {
                 </Menu>
                 <RecentlyWatched>
                     <MenuTitle>최근 본 만화</MenuTitle>
-                    <p>왈랄랄루</p>
-                    <p>왈랄랄루</p>
-                    <p>왈랄랄루</p>
-                    <p>왈랄랄루</p>
-                    <p>왈랄랄루</p>
+                    {recent && recent.map((element, index) => {
+                        return <RecentlyWatchedContent key={index} onClick={e => moveToWebtoon(element.webtoonid, element.link, e)}>
+                                    {element.title}
+                                </RecentlyWatchedContent>
+                    })}
                 </RecentlyWatched>
                 <ButtonContainer>
                     {isLogin ? 

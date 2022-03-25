@@ -50,7 +50,7 @@ const Images = styled.div`
     margin-top: 2rem;
     grid-template-columns: repeat(auto-fill, 15%);
     grid-auto-rows: 15rem;
-    gap: 3rem 2%;
+    gap: 0.5rem 2%;
 `
 
 const Spinner = styled.div`
@@ -122,12 +122,6 @@ const Home:NextPage = () => {
 
     useEffect(() => {
         const token = checkCookies('token') ? getCookie('token') : '';
-
-        console.log(JSON.stringify({
-            token: token,
-            ...filterData
-        }));
-
         const fetchData = async () => {
             try {
                 const response = await fetch(process.env.URL + '/webtoon', {
@@ -165,21 +159,19 @@ const Home:NextPage = () => {
             <Main>
                 <Center>
                     <FilterLayout/>
-                    <Suspense fallback={<Spinner/>}>   
-                        <Images>
-                            {webtoons && webtoons.map((value, index) => { 
-                                return <WebtoonLink 
-                                    key={index}
-                                    id={value.webtoonid} 
-                                    title={value.title} 
-                                    thumbnail={value.thumbnail} 
-                                    link={value.link}
-                                    author={value.author}
-                                    bookmark={value.bookmark}
-                                /> 
-                            })}
-                        </Images>
-                    </Suspense>
+                    <Images>
+                        {webtoons && webtoons.map((value, index) => { 
+                            return <WebtoonLink 
+                                key={index}
+                                id={value.webtoonid} 
+                                title={value.title} 
+                                thumbnail={value.thumbnail} 
+                                link={value.link}
+                                author={value.author}
+                                bookmark={value.bookmark}
+                            /> 
+                        })}
+                    </Images>
                 </Center>
             </Main>
         </ThemeProvider>

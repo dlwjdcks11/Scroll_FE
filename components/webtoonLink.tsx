@@ -1,7 +1,7 @@
 import type React from "react";
 import styled, { css, ThemeProvider } from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentThemeState, showFavoriteState, showLoginState } from "./states/state";
+import { currentThemeState, recentlyWatchedState, showFavoriteState, showLoginState } from "./states/state";
 import { darkTheme, lightTheme } from "../styles/theme/theme";
 import { useState } from "react";
 import Star from '/public/star.svg';
@@ -28,13 +28,13 @@ const LinkContainer = styled.div`
 
 const Thumbnail = styled.div<thumbnailProp>`
     background-repeat: no-repeat;
-    background-size: 9rem 13rem;
+    background-size: 9rem 9rem;
     width: 9rem;
-    min-height: 13rem;
+    min-height: 9rem;
     border-radius: 0.4rem;
 
     ${props => props.url && css<thumbnailProp>`
-        background-image: url(${props.url});
+        background-image: ${props.url !== '' ? `url(${props.url})` : `url(/noImage.jpg)`};
     `}
 `
 
@@ -48,7 +48,7 @@ const DetailContainer = styled.div`
     flex-direction: column;
     width: 7.5rem;
     text-decoration: none;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0;
 
     :hover {
         cursor: pointer;
@@ -61,12 +61,12 @@ const IconContainer = styled.div`
 `;
 
 const WebtoonTitle = styled.p`
-    margin: 0.3rem 0 0.1rem 0.5rem;
+    margin: 0.3rem 0 0.1rem 0.2rem;
     color: ${({ theme }) => theme.textColor};
 `;
 
 const AuthorInfo = styled.p`
-    margin: 0.2rem 0 0 0.5rem;
+    margin: 0.2rem 0 0 0.2rem;
     max-height: 1rem;
     color: grey;
     font-size: 12px;
@@ -74,6 +74,7 @@ const AuthorInfo = styled.p`
 
 const WebtoonLink:React.FC<info> = (props) => {
     const webtoonID = props.id;
+    const setRecentlyWatched = useSetRecoilState(recentlyWatchedState);
     const setShowLogin = useSetRecoilState(showLoginState);
     const showFavorite = useRecoilValue(showFavoriteState);
     const [star, setStar] = useState(props.bookmark);
@@ -88,30 +89,31 @@ const WebtoonLink:React.FC<info> = (props) => {
     const moveToWebtoon = async (e) => {
         e.stopPropagation();
         
-        // if (typeof window !== 'undefined') {
-        //     try {
-        //         const response = await fetch(process.env.URL + '/webtoon/click', {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-type': 'application/json',
-        //             },
-        //             body: JSON.stringify({
-        //                 webtoonID: webtoonID,
-        //             })
-        //         })
-        //         const result = await response.json();
+        if (typeof window !== 'undefined') {
+            try {
+                const response = await fetch(process.env.URL + '/webtoon/click', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        webtoonID: webtoonID,
+                    })
+                })
+                const result = await response.json();
     
-        //         if (result.success) {
-        //             window.open(props.link);
-        //         }
-        //         else {
-        //             alert(result.message);
-        //         }
-        //     }
-        //     catch(e) {
-        //         console.log(e);
-        //     }
-        // }
+                if (result.success) {
+                    window.open(props.link);
+                    setRecentlyWatched(props.title);
+                }
+                else {
+                    alert(result.message);
+                }
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }
     }
 
     const selectFavorite = async (e) => {
