@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     "components/**/*"
-  ],
+, "pages/_error.jsx"  ],
   "exclude": [
     "node_modules"
   ]
