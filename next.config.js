@@ -16,7 +16,7 @@ const nextConfig = {
         styledComponents: true,
     },
     env: {
-        URL: 'http://3.38.141.82:3000'
+        URL: 'http://3.36.42.188:3000'
     },
     eslint: {
         ignoreDuringBuilds: true,
